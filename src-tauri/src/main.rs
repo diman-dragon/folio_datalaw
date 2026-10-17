@@ -1,4 +1,4 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
+// Binary entry point: hides the console window on Windows release builds and starts the app.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {

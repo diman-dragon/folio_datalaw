@@ -1,7 +1,48 @@
-# Tauri + React + Typescript
+# Folio Desktop (folio_datalaw)
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Просмотрщик PDF для настольных ОС на Tauri 2. **MVP: библиотека + открытие PDF.**
+Отдельный проект; визуал (темы, иконки, цвета) взят из мобильного Folio.
 
-## Recommended IDE Setup
+## Стек
+- Tauri 2 (Rust), плагины: `dialog`, `window-state`.
+- Фронтенд: чистый ES-JS без сборщика (`www/`), `pdfjs-dist` 6.4.299 копируется в `www/vendor/pdfjs` при `pnpm install`.
+- Менеджер пакетов: pnpm. Тесты: `node --test`, `cargo test`.
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Старт (PowerShell)
+```powershell
+pnpm install        # зависимости + копирование pdf.js в www/vendor
+pnpm check          # контракт + тесты + clippy (после КАЖДОГО изменения)
+pnpm dev            # окно приложения (tauri dev)
+pnpm build          # установщик в src-tauri/target/release/bundle
+```
+Нужны Node 20+, Rust stable и системные зависимости Tauri (Windows: WebView2 и MSVC Build Tools; Linux: `libwebkit2gtk-4.1-dev` и др.).
+
+## Что умеет MVP
+- Библиотека: карточки с обложками и прогрессом чтения, сортировка по последнему открытию.
+- Открытие: кнопка / Ctrl+O (можно выбрать несколько), перетаскивание файлов в окно, клик по карточке.
+- Просмотр: прокрутка лентой, масштаб (кнопки, Ctrl+колесо, Ctrl +/−/0, «По ширине»), переход по номеру страницы, PDF с паролем, Esc — в библиотеку.
+- Запоминает страницу и масштаб каждого документа, тему (светлая / тёмная).
+- Убрать из библиотеки: корзина на карточке или правый клик. Файл на диске не удаляется.
+
+## Структура
+```
+www/                  фронтенд (frontendDist)
+  index.html, css/    разметка и стили (theme.css — токены цветов)
+  js/core/            bus, storage, theme, format, strings
+  js/data/            library (записи), covers (обложки)
+  js/io/              bridge (единственное место с __TAURI__), read-pdf, pick-pdfs, drop-files
+  js/formats/pdf/     pdfjs, open-doc, close-doc, page-list, render-page, zoom, page-at, cover
+  js/ui/              экраны и панели
+  js/app/             сценарии: открыть, импортировать, удалить
+src-tauri/            Rust: lib.rs, commands/read_pdf.rs, pdf_guard.rs (+ тесты)
+scripts/              проверки контракта, bump версии, copy-vendor
+test-fixtures/        PDF для тестов (обычный и с паролем «secret»)
+```
+
+## Известные ограничения MVP
+- Нет выделения/копирования текста и поиска (текстового слоя пока нет).
+- Размеры страниц до первой отрисовки берутся по первой странице: в документах с разными форматами возможен небольшой сдвиг при прокрутке.
+- Библиотека хранит путь к файлу. Файл переместили — карточка остается, при открытии сообщение «Файл не найден».
+- Обложка создается при первом открытии файла.
+- Нет открытия двойным кликом из проводника (ассоциация `.pdf`) и CLI-аргумента.
+- Данные библиотеки лежат в localStorage веб-вью (папка данных приложения).

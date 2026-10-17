@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folio</title>
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/library.css">
+<link rel="stylesheet" href="css/viewer.css">
+<link rel="stylesheet" href="css/dialog.css">
+<link rel="stylesheet" href="css/drop.css">
+<link rel="stylesheet" href="css/toast.css">
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<div id="app">
+  <section id="home">
+    <header class="bar">
+      <h1>Folio</h1>
+      <button class="icon-btn" id="theme-btn" title="Тема: светлая / тёмная"><svg><use href="img/icons.svg#moon"/></svg></button>
+      <button class="btn" id="open-btn" title="Открыть PDF (Ctrl+O)"><svg width="18" height="18"><use href="img/icons.svg#plus"/></svg><span>Открыть PDF</span></button>
+    </header>
+    <div class="body" id="home-body">
+      <ul id="doc-list" class="grid"></ul>
+      <div id="doc-empty" class="empty" hidden>
+        <img src="img/emoji/books.png" alt="" width="72" height="72">
+        <p>Библиотека пуста</p>
+        <p class="small">Перетащите PDF в окно или нажмите «Открыть PDF» (Ctrl+O)</p>
+        <button class="btn" id="empty-open">Открыть PDF</button>
+      </div>
+    </div>
+  </section>
+  <section id="viewer" hidden>
+    <header class="bar">
+      <button class="icon-btn" id="viewer-back" title="В библиотеку (Esc)"><svg><use href="img/icons.svg#back"/></svg></button>
+      <h1 id="viewer-title"></h1>
+      <button class="icon-btn" id="page-prev" title="Предыдущая страница"><svg><use href="img/icons.svg#prev"/></svg></button>
+      <input id="page-input" type="number" min="1" value="1" aria-label="Страница">
+      <span id="page-total"></span>
+      <button class="icon-btn" id="page-next" title="Следующая страница"><svg><use href="img/icons.svg#next"/></svg></button>
+      <span class="gap"></span>
+      <button class="icon-btn" id="zoom-out" title="Уменьшить (Ctrl+−)"><svg><use href="img/icons.svg#zoom-out"/></svg></button>
+      <span id="zoom-label">100%</span>
+      <button class="icon-btn" id="zoom-in" title="Увеличить (Ctrl++)"><svg><use href="img/icons.svg#zoom-in"/></svg></button>
+      <button class="txt-btn" id="zoom-fit" title="По ширине окна">По ширине</button>
+    </header>
+    <div id="viewer-scroll" tabindex="0"><div id="viewer-pages"></div></div>
+  </section>
+  <dialog id="pw">
+    <form method="dialog">
+      <p id="pw-msg"></p>
+      <input id="pw-input" type="password" autocomplete="off">
+      <div class="dlg-btns">
+        <button type="button" class="btn btn-ghost" id="pw-cancel">Отмена</button>
+        <button type="submit" class="btn" value="ok">ОК</button>
+      </div>
+    </form>
+  </dialog>
+  <div id="drop" hidden><span>Отпустите PDF, чтобы добавить</span></div>
+  <div id="toast"></div>
+</div>
+</body>
+</html>

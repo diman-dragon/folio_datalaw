@@ -1,0 +1,4 @@
+/* Library empty state. */
+.empty{height:100%;display:grid;justify-items:center;align-content:center;gap:10px;text-align:center;color:var(--muted);padding:24px}
+.empty img{margin-bottom:6px}
+.empty .btn{margin-top:10px}

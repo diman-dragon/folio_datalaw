@@ -1,0 +1,15 @@
+/* Full-window document viewer: header controls and the page ribbon. */
+#viewer{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;background:var(--viewer-bg)}
+#viewer .bar{gap:4px;padding:0 10px}
+#viewer-title{font-size:14px}
+#page-input{width:54px;height:30px;text-align:center;font:inherit;font-size:13px;color:var(--on-chrome);background:var(--accent-soft);border:1px solid var(--chrome-line);border-radius:8px;-moz-appearance:textfield}
+#page-input::-webkit-outer-spin-button,#page-input::-webkit-inner-spin-button{-webkit-appearance:none}
+#page-total{font-size:13px;opacity:.8;min-width:40px;padding-left:4px}
+#zoom-label{min-width:50px;text-align:center;font-size:13px}
+.bar .txt-btn{height:34px;padding:0 10px;border-radius:10px;font-size:13px;font-weight:600}
+.bar .txt-btn:hover{background:var(--accent-soft)}
+.bar .gap{width:14px;flex:none}
+#viewer-scroll{position:relative;flex:1;min-height:0;overflow:auto;outline:none}
+#viewer-pages{position:relative;display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px 24px;width:max-content;min-width:100%}
+.pdf-page{position:relative;flex:none;background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.5);outline:1px solid rgba(0,0,0,.32);contain:layout style}
+.pdf-page canvas{position:absolute;inset:0}
