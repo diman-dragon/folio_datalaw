@@ -1,0 +1,17 @@
+/* Thumbnail sidebar: transparent, pinned (in the layout) or an overlay revealed at the left edge. */
+#thumbs-hot{position:absolute;left:0;top:0;bottom:0;width:18px;z-index:2}
+#thumbs-hot::after{content:"";position:absolute;left:4px;top:50%;width:4px;height:64px;margin-top:-32px;border-radius:2px;background:var(--on-chrome);opacity:.4}
+#thumbs{display:flex;flex-direction:column;width:176px;flex:none;z-index:3;background:transparent}
+#viewer-main:not(.pinned) #thumbs{position:absolute;left:0;top:0;bottom:0;transform:translateX(-100%);transition:transform .18s ease;pointer-events:none}
+#viewer-main:not(.pinned) #thumbs-hot:hover+#thumbs,#viewer-main:not(.pinned) #thumbs:hover{transform:none;pointer-events:auto}
+#viewer-main.pinned #thumbs-hot{display:none}
+#thumbs-head{display:flex;align-items:center;justify-content:space-between;padding:6px 8px 0 16px;font-size:12px;font-weight:600;color:var(--on-chrome);text-shadow:0 1px 3px rgba(0,0,0,.7)}
+#thumbs-btn.on,#pin-btn.on{background:var(--accent-soft)}
+#thumbs-list{position:relative;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:8px 16px 24px}
+.thumb{flex:none;cursor:pointer;text-align:center}
+.thumb-box{position:relative;width:100%;background:#fff;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.55);outline:2px solid transparent}
+.thumb-box canvas{position:absolute;inset:0;width:100%;height:100%}
+.thumb:hover .thumb-box{outline-color:var(--on-chrome)}
+.thumb.cur .thumb-box{outline-color:var(--accent)}
+.thumb-n{display:inline-block;margin-top:5px;padding:0 9px;border-radius:9px;font-size:11px;background:rgba(0,0,0,.55);color:#fff}
+.thumb.cur .thumb-n{background:var(--accent);color:var(--on-accent)}

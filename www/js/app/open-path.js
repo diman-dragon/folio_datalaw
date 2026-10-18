@@ -12,7 +12,7 @@ export async function openPath(path) {
   try {
     const { meta, pdf } = await importPath(path);
     emit('libchange');
-    ensureCover(meta, pdf);
+    setTimeout(() => ensureCover(meta, pdf), 2500); // fallback; the viewer normally makes the cover itself
     await openViewer(meta, pdf);
   } catch (e) {
     const msg = errorText(e);

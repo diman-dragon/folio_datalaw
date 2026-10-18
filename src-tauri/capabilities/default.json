@@ -1,11 +1,10 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Minimal permissions: native open dialog, window state, event listening",
+  "description": "Minimal permissions: native open dialog, event listening",
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "dialog:allow-open",
-    "window-state:default"
+    "dialog:allow-open"
   ]
 }

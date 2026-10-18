@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/library.css">
 <link rel="stylesheet" href="css/viewer.css">
+<link rel="stylesheet" href="css/thumbs.css">
 <link rel="stylesheet" href="css/dialog.css">
 <link rel="stylesheet" href="css/drop.css">
 <link rel="stylesheet" href="css/toast.css">
@@ -33,21 +34,31 @@
       </div>
     </div>
   </section>
-  <section id="viewer" hidden>
+  <section id="viewer" hidden data-mode="ribbon">
     <header class="bar">
       <button class="icon-btn" id="viewer-back" title="В библиотеку (Esc)"><svg><use href="img/icons.svg#back"/></svg></button>
+      <button class="icon-btn" id="thumbs-btn" title="Миниатюры: закрепить / открепить"><svg><use href="img/icons.svg#thumbnails"/></svg></button>
       <h1 id="viewer-title"></h1>
       <button class="icon-btn" id="page-prev" title="Предыдущая страница"><svg><use href="img/icons.svg#prev"/></svg></button>
       <input id="page-input" type="number" min="1" value="1" aria-label="Страница">
       <span id="page-total"></span>
       <button class="icon-btn" id="page-next" title="Следующая страница"><svg><use href="img/icons.svg#next"/></svg></button>
       <span class="gap"></span>
+      <button class="icon-btn" id="mode-btn" title="Показывать по одной странице"><svg><use href="img/icons.svg#pages"/></svg></button>
+      <span class="gap"></span>
       <button class="icon-btn" id="zoom-out" title="Уменьшить (Ctrl+−)"><svg><use href="img/icons.svg#zoom-out"/></svg></button>
       <span id="zoom-label">100%</span>
       <button class="icon-btn" id="zoom-in" title="Увеличить (Ctrl++)"><svg><use href="img/icons.svg#zoom-in"/></svg></button>
-      <button class="txt-btn" id="zoom-fit" title="По ширине окна">По ширине</button>
+      <button class="txt-btn" id="zoom-fit" title="Подогнать под окно">По ширине</button>
     </header>
-    <div id="viewer-scroll" tabindex="0"><div id="viewer-pages"></div></div>
+    <div id="viewer-main">
+      <div id="thumbs-hot"></div>
+      <aside id="thumbs">
+        <div id="thumbs-head"><span>Страницы</span><button class="icon-btn" id="pin-btn" title="Закрепить панель"><svg><use href="img/icons.svg#pin"/></svg></button></div>
+        <div id="thumbs-list"></div>
+      </aside>
+      <div id="viewer-scroll" tabindex="0"><div id="viewer-pages"></div></div>
+    </div>
   </section>
   <dialog id="pw">
     <form method="dialog">

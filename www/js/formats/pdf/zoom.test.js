@@ -22,3 +22,12 @@ test('fitWidth divides available width by page width', () => {
   assert.equal(fitWidth(800, 400), 2);
   assert.equal(fitWidth(100, 1000), MIN);
 });
+
+import { fitBox } from './zoom.js';
+test('fitBox by width ignores height', () => {
+  assert.equal(fitBox(800, 100, 400, 1000, 'width'), 2);
+});
+test('fitBox by page takes the tighter side', () => {
+  assert.equal(fitBox(800, 500, 400, 1000, 'page'), 0.5);
+  assert.equal(fitBox(800, 5000, 400, 1000, 'page'), 2);
+});

@@ -1,6 +1,6 @@
 [package]
 name = "folio_datalaw"
-version = "0.0.1"
+version = "0.0.2"
 description = "Folio Desktop - PDF viewer"
 edition = "2021"
 rust-version = "1.77"
@@ -15,4 +15,3 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
-tauri-plugin-window-state = "2"

@@ -6,3 +6,7 @@ export const clamp = (z) => Math.min(MAX, Math.max(MIN, z));
 export const stepUp = (z) => STEPS.find((s) => s > z + 1e-6) ?? MAX;
 export const stepDown = (z) => [...STEPS].reverse().find((s) => s < z - 1e-6) ?? MIN;
 export const fitWidth = (avail, pageWidth) => clamp(avail / pageWidth);
+export function fitBox(availW, availH, pageW, pageH, kind) {
+  const byWidth = availW / pageW;
+  return clamp(kind === 'page' ? Math.min(byWidth, availH / pageH) : byWidth);
+}

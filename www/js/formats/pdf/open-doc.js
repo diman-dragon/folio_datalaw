@@ -6,6 +6,7 @@ export async function openPdf(bytes, { askPassword = null } = {}) {
   const task = lib.getDocument({
     data: bytes,
     isEvalSupported: false,
+    enableHWA: true, // GPU canvas: the single biggest rendering speed-up
     cMapUrl: ASSETS + 'cmaps/', cMapPacked: true,
     standardFontDataUrl: ASSETS + 'standard_fonts/',
     wasmUrl: ASSETS + 'wasm/', iccUrl: ASSETS + 'iccs/',

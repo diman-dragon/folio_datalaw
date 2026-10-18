@@ -1,4 +1,4 @@
-/* Full-window document viewer: header controls and the page ribbon. */
+/* Full-window document viewer: header controls and the page ribbon / single page. */
 #viewer{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;background:var(--viewer-bg)}
 #viewer .bar{gap:4px;padding:0 10px}
 #viewer-title{font-size:14px}
@@ -9,7 +9,12 @@
 .bar .txt-btn{height:34px;padding:0 10px;border-radius:10px;font-size:13px;font-weight:600}
 .bar .txt-btn:hover{background:var(--accent-soft)}
 .bar .gap{width:14px;flex:none}
-#viewer-scroll{position:relative;flex:1;min-height:0;overflow:auto;outline:none}
-#viewer-pages{position:relative;display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px 24px;width:max-content;min-width:100%}
-.pdf-page{position:relative;flex:none;background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.5);outline:1px solid rgba(0,0,0,.32);contain:layout style}
+#viewer-main{position:relative;flex:1;min-height:0;display:flex}
+#viewer-scroll{position:relative;flex:1;min-width:0;min-height:0;overflow:auto;outline:none}
+#viewer-pages{position:relative;display:flex;flex-direction:column;align-items:center;gap:28px;padding:28px 32px;width:max-content;min-width:100%}
+#viewer-pages.paged{justify-content:center;min-height:100%;gap:0;padding:16px 32px}
+.paged .pdf-page:not(.cur){display:none}
+.pdf-page{position:relative;flex:none;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.55);outline:1px solid rgba(0,0,0,.35);contain:layout style}
+.pdf-page::before{content:attr(data-n);position:absolute;inset:0;display:grid;place-items:center;font:700 clamp(28px,5vw,64px) system-ui,sans-serif;color:rgba(0,0,0,.09)}
+.pdf-page.ready::before{display:none}
 .pdf-page canvas{position:absolute;inset:0}
