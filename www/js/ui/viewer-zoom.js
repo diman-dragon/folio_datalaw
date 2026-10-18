@@ -1,5 +1,6 @@
 // Zoom controller of the viewer: current zoom (or fit), header buttons, debounced refit on resize.
 import { clamp, stepUp, stepDown, fitBox } from '../formats/pdf/zoom.js';
+import { emit } from '../core/bus.js';
 const MAX_FIT = 2;
 export function createZoom({ list, scroller, initial, fitKind, onChange }) {
   const label = document.getElementById('zoom-label');
@@ -12,6 +13,7 @@ export function createZoom({ list, scroller, initial, fitKind, onChange }) {
       z = Math.min(MAX_FIT, fitBox(scroller.clientWidth - 64, scroller.clientHeight - 32, b.width, b.height, fitKind()));
     }
     list.setScale(z);
+    emit('viewchange');
     label.textContent = Math.round(z * 100) + '%';
   };
   const set = (v) => { fit = false; z = clamp(v); apply(); onChange(z); };

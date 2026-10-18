@@ -1,8 +1,8 @@
-// Viewer shortcuts: Ctrl +/-/0 and Ctrl+wheel zoom, Esc closes (arrows / PgUp / PgDn scroll natively).
-export function bindViewerKeys({ zoom, close, scroller }) {
+// Viewer shortcuts: Ctrl +/-/0 and Ctrl+wheel zoom, Esc dismisses editing state or closes (arrows / PgUp / PgDn scroll natively).
+export function bindViewerKeys({ zoom, close, dismiss, scroller }) {
   let lastWheel = 0;
   const onKey = (e) => {
-    if (e.key === 'Escape') { close(); return; }
+    if (e.key === 'Escape') { if (!dismiss?.()) close(); return; }
     if (!(e.ctrlKey || e.metaKey)) return;
     if (e.key === '=' || e.key === '+') zoom.in();
     else if (e.key === '-') zoom.out();

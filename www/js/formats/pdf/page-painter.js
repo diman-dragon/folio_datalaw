@@ -11,6 +11,7 @@ export function createPainter({ doc, queue, scaleOf, dist, learn, onRendered }) 
     s.el.append(canvas);
     s.el.classList.add('ready');
     Object.assign(s, { canvas, drawn: scale, full });
+    s.el.dispatchEvent(new CustomEvent('pageready', { bubbles: true }));
     if (old) wipe(old);
   }
   async function job(i, s, rev, full) {
@@ -37,6 +38,7 @@ export function createPainter({ doc, queue, scaleOf, dist, learn, onRendered }) 
     drop(i);
     if (s.canvas) wipe(s.canvas);
     s.el.classList.remove('ready');
+    s.el.dispatchEvent(new CustomEvent('pagehide', { bubbles: true }));
     st.delete(i);
   }
   return {

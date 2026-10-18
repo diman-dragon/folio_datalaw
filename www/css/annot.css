@@ -1,0 +1,8 @@
+/* Annotation layers on a page (vector, marks blended under ink) and cursors for the active tool. */
+.annot{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:hidden}
+.annot-mark{z-index:2;mix-blend-mode:multiply}
+.annot-ink{z-index:3}
+#viewer-pages{user-select:none;-webkit-user-select:none}
+.pdf-page{cursor:text}
+.draw-active .pdf-page{cursor:crosshair}
+#viewer[data-edit-tool="eraser"] .pdf-page{cursor:cell}

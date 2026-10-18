@@ -1,10 +1,9 @@
-/* Thumbnail sidebar: transparent, pinned (in the layout) or an overlay revealed at the left edge. */
+/* Thumbnail sidebar: a transparent overlay (never shifts the pages), opened by button / edge, pinned to stay. */
 #thumbs-hot{position:absolute;left:0;top:0;bottom:0;width:18px;z-index:2}
 #thumbs-hot::after{content:"";position:absolute;left:4px;top:50%;width:4px;height:64px;margin-top:-32px;border-radius:2px;background:var(--on-chrome);opacity:.4}
-#thumbs{display:flex;flex-direction:column;width:176px;flex:none;z-index:3;background:transparent}
-#viewer-main:not(.pinned) #thumbs{position:absolute;left:0;top:0;bottom:0;transform:translateX(-100%);transition:transform .18s ease;pointer-events:none}
-#viewer-main:not(.pinned) #thumbs-hot:hover+#thumbs,#viewer-main:not(.pinned) #thumbs:hover{transform:none;pointer-events:auto}
-#viewer-main.pinned #thumbs-hot{display:none}
+#viewer-main.open #thumbs-hot{display:none}
+#thumbs{position:absolute;left:0;top:0;bottom:0;width:176px;z-index:3;display:flex;flex-direction:column;background:transparent;transform:translateX(-100%);transition:transform .18s ease;pointer-events:none}
+#viewer-main.open #thumbs{transform:none;pointer-events:auto}
 #thumbs-head{display:flex;align-items:center;justify-content:space-between;padding:6px 8px 0 16px;font-size:12px;font-weight:600;color:var(--on-chrome);text-shadow:0 1px 3px rgba(0,0,0,.7)}
 #thumbs-btn.on,#pin-btn.on{background:var(--accent-soft)}
 #thumbs-list{position:relative;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:8px 16px 24px}
