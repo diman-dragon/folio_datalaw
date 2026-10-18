@@ -4,17 +4,19 @@ import { emit } from '../core/bus.js';
 import { validItem } from './annot-valid.js';
 const pages = new Map();
 let done = [], undone = [];
-const changed = () => emit('annotchange', { undo: done.length > 0, redo: undone.length > 0 });
+const MAX_HISTORY = 1000;
+const changed = () => emit('annotchange', { undo: done.length, redo: undone.length });
 const list = (i) => { let l = pages.get(i); if (!l) pages.set(i, (l = [])); return l; };
 export const getItems = (i) => pages.get(i) ?? [];
-export function addItem(i, item) { list(i).push(item); done.push({ t: 'add', i, item }); undone = []; changed(); }
+const record = (op) => { done.push(op); if (done.length > MAX_HISTORY) done.shift(); undone = []; };
+export function addItem(i, item) { list(i).push(item); record({ t: 'add', i, item }); changed(); }
 // Removes items right away (live erasing) and returns what was removed; the history entry is written by recordErase().
 export function takeItems(i, items) {
   const l = list(i), out = [];
   items.forEach((item) => { const idx = l.indexOf(item); if (idx >= 0) { l.splice(idx, 1); out.push({ i, item, idx }); } });
   return out;
 }
-export function recordErase(removed) { if (removed.length) { done.push({ t: 'del', removed }); undone = []; changed(); } }
+export function recordErase(removed) { if (removed.length) { record({ t: 'del', removed }); changed(); } }
 function step(op, undoing) {
   const touched = new Set();
   if (op.t === 'add') {

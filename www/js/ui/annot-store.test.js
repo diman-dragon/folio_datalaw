@@ -12,10 +12,10 @@ beforeEach(() => clearAnnots());
 test('add then undo / redo', () => {
   const it = mark(0.1);
   addItem(2, it);
-  assert.deepEqual(last, { undo: true, redo: false });
+  assert.deepEqual(last, { undo: 1, redo: 0 });
   assert.deepEqual(undoOp(), [2]);
   assert.equal(getItems(2).length, 0);
-  assert.deepEqual(last, { undo: false, redo: true });
+  assert.deepEqual(last, { undo: 0, redo: 1 });
   assert.deepEqual(redoOp(), [2]);
   assert.deepEqual(getItems(2), [it]);
 });
@@ -55,4 +55,9 @@ test('export / import round-trips and drops invalid items', () => {
   assert.equal(getItems(3).length, 1);
   assert.equal(getItems(7).length, 0);
   assert.deepEqual(undoOp(), []);
+});
+
+test('history is capped so memory stays bounded', () => {
+  for (let i = 0; i < 1100; i++) addItem(0, mark(0.1));
+  assert.equal(last.undo, 1000);
 });

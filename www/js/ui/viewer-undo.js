@@ -4,7 +4,6 @@ import { repaintPage } from './annot-layers.js';
 import { clearSel } from './text-select.js';
 import { getActive } from './active-doc.js';
 import { on } from '../core/bus.js';
-const root = document.getElementById('viewer');
 const undoBtn = document.getElementById('undo-btn');
 const redoBtn = document.getElementById('redo-btn');
 function apply(pages) {
@@ -22,5 +21,9 @@ function apply(pages) {
 }
 undoBtn.addEventListener('click', () => apply(undoOp()));
 redoBtn.addEventListener('click', () => apply(redoOp()));
-on('annotchange', ({ undo, redo }) => { undoBtn.disabled = !undo; redoBtn.disabled = !redo; });
-on('editbar', (open) => root.classList.toggle('show-undo', open));
+on('annotchange', ({ undo, redo }) => {
+  undoBtn.disabled = !undo;
+  redoBtn.disabled = !redo;
+  undoBtn.title = undo ? `Отменить (Ctrl+Z) · шагов: ${undo}` : 'Отменить (Ctrl+Z)';
+  redoBtn.title = redo ? `Повторить (Ctrl+Y) · шагов: ${redo}` : 'Повторить (Ctrl+Y)';
+});

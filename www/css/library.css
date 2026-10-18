@@ -1,4 +1,10 @@
-/* Library cards: cover grid, hover delete button, reading progress. */
+/* Library: sections ("Reading now" panel + the rest), cover grid, hover delete button, reading progress. */
+.sec h2{display:flex;align-items:baseline;gap:8px;margin-bottom:14px;font-size:16px;font-weight:700}
+.cnt{font-size:13px;font-weight:600;color:var(--muted)}
+.sec-reading{margin-bottom:30px;padding:16px 18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.sec-reading h2{color:var(--accent)}
+#sec-rest{padding-top:6px}
+.sec-reading+.sec{border-top:1px solid var(--line);padding-top:22px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px 18px;user-select:none}
 .doc{position:relative;min-width:0}
 .doc-main{display:block;width:100%;text-align:left;border-radius:8px;transition:transform .15s}
@@ -12,3 +18,5 @@
 .prog{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);max-width:100%}
 .doc-del{position:absolute;top:6px;right:6px;width:30px;height:30px;display:grid;place-items:center;border-radius:8px;background:var(--chrome);color:var(--on-chrome);opacity:0;transition:opacity .15s}
 .doc:hover .doc-del,.doc-del:focus-visible{opacity:1}
+.hidden-note{margin-top:26px}
+.link-btn{margin-left:6px;color:var(--accent);text-decoration:underline;font-size:13px}

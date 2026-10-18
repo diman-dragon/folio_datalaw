@@ -1,11 +1,11 @@
 // Text geometry of a page straight from pdf.js text content (no DOM): every char box in page units (scale 1, y down).
 const cache = new WeakMap();
 const widths = new Map();
-const ctx2 = document.createElement('canvas').getContext('2d');
+let ctx2 = null; // created on first use, so importing this file needs no DOM
 function charW(family, ch) {
   const k = `${family}|${ch}`;
   let w = widths.get(k);
-  if (w === undefined) { ctx2.font = `100px ${family}`; w = ctx2.measureText(ch).width; widths.set(k, w); }
+  if (w === undefined) { ctx2 ??= document.createElement('canvas').getContext('2d'); ctx2.font = `100px ${family}`; w = ctx2.measureText(ch).width; widths.set(k, w); }
   return w;
 }
 const mul = (m, t) => [m[0] * t[0] + m[2] * t[1], m[1] * t[0] + m[3] * t[1], m[0] * t[2] + m[2] * t[3], m[1] * t[2] + m[3] * t[3], m[0] * t[4] + m[2] * t[5] + m[4], m[1] * t[4] + m[3] * t[5] + m[5]];

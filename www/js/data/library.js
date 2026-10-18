@@ -11,6 +11,7 @@ const write = (docs) => store.set(KEY, JSON.stringify(docs));
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 export const listDocs = () => read().sort((a, b) => (b.openedAt ?? 0) - (a.openedAt ?? 0));
 export const getDoc = (id) => read().find((d) => d.id === id) ?? null;
+export const getDocByPath = (path) => read().find((d) => d.path === path) ?? null;
 export function updateDoc(id, patch) {
   const docs = read();
   const i = docs.findIndex((d) => d.id === id);

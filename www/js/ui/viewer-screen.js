@@ -12,6 +12,9 @@ import { resetThumbs } from './thumbs-panel.js';
 import { restorePanel, suspendPanel } from './tools-panel.js';
 import { dismissTransient } from './edit-dismiss.js';
 import { setActive } from './active-doc.js';
+import { closeOcr } from './ocr-menu.js';
+import { createTextSource } from '../formats/pdf/text-source.js';
+import { loadAllOcr } from '../data/ocr-store.js';
 import { attachAnnots, detachAnnots } from '../app/annot-persist.js';
 import './text-mouse.js';
 import './viewer-undo.js';
@@ -28,6 +31,7 @@ export async function closeViewer() {
   session = null;
   clearTimeout(s.timer);
   updateDoc(s.meta.id, { lastPage: s.list.current() });
+  closeOcr();
   suspendPanel();
   setActive(null);
   s.unkeys();
@@ -78,7 +82,9 @@ export async function openViewer(meta, pdf) {
   bindMode({ root, list, zoom: s.zoom });
   s.unkeys = bindViewerKeys({ zoom: s.zoom, close: closeViewer, dismiss: dismissTransient, scroller });
   s.unnav = bindPagedNav({ list, scroller, isPaged: paged });
-  setActive({ pdf, list, meta });
+  const text = createTextSource(pdf);
+  setActive({ pdf, list, meta, text });
+  loadAllOcr(meta.id).then((all) => all.forEach(([i, d]) => text.setOcr(i, d))).catch(() => {});
   restorePanel();
   session = s;
   list.goTo(meta.lastPage ?? 1);

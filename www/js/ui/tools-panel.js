@@ -1,6 +1,7 @@
 // Floating tool palette over the document: tools, colours, lock position, hide.
 import { setDrawTool, setDrawColor } from './viewer-draw.js';
 import { initPanelDrag } from './panel-drag.js';
+import { toggleOcr } from './ocr-menu.js';
 import { toast } from './toast.js';
 import { t } from '../core/strings.js';
 import { emit } from '../core/bus.js';
@@ -30,6 +31,7 @@ export function showPanel(open, { save = true } = {}) {
 export const restorePanel = () => showPanel(getPref('panelopen', false), { save: false });
 export const suspendPanel = () => showPanel(false, { save: false });
 editBtn.addEventListener('click', () => showPanel(panel.hidden));
+document.getElementById('tp-ocr').addEventListener('click', () => toggleOcr());
 document.getElementById('tp-hide').addEventListener('click', () => showPanel(false));
 const pinBtn = document.getElementById('tp-pin');
 const paintPin = () => { pinBtn.classList.toggle('on', pinned); panel.classList.toggle('pinned', pinned); };

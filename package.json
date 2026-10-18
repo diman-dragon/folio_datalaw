@@ -1,26 +1,32 @@
 {
   "name": "folio_datalaw",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "description": "Folio Desktop - PDF viewer (Tauri 2). MVP: library + open PDF.",
   "type": "module",
   "packageManager": "pnpm@10.28.2",
   "scripts": {
-    "postinstall": "node scripts/copy-vendor.mjs",
+    "postinstall": "node scripts/copy-vendor.mjs && node scripts/fetch-ocr.mjs",
     "tauri": "tauri",
     "dev": "tauri dev",
     "build": "tauri build",
     "bump": "node scripts/bump-version.mjs",
-    "check:js": "node scripts/check.mjs",
+    "check:js": "node scripts/check.mjs && eslint www/js scripts",
     "test": "node --test",
     "check:rust": "cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings",
     "test:rust": "cargo test --manifest-path src-tauri/Cargo.toml",
-    "check": "pnpm check:js && pnpm test && pnpm check:rust && pnpm test:rust"
+    "check": "pnpm check:js && pnpm test && pnpm check:rust && pnpm test:rust",
+    "lint": "eslint www/js scripts",
+    "fetch-ocr": "node scripts/fetch-ocr.mjs"
   },
   "dependencies": {
     "pdfjs-dist": "6.4.299"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.0.0"
+    "@tauri-apps/cli": "^2.0.0",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "globals": "^15.0.0",
+    "fake-indexeddb": "^6.0.0"
   }
 }
