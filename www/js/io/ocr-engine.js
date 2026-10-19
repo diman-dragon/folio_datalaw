@@ -1,4 +1,5 @@
 // Offline OCR engine: tesseract.js + wasm core + language data, fetched into www/vendor/tesseract by scripts/fetch-ocr.mjs.
+import { createWorkerOf } from './ocr-module.js';
 const base = new URL('../../vendor/tesseract/', import.meta.url).href;
 let info, worker = null, key = '', progress = null;
 export async function ocrInfo() {
@@ -19,7 +20,7 @@ function corePath(meta) {
 }
 // Starts the worker; if the first way fails (workers from a plain URL, then from a blob) the next one is tried.
 async function start(meta, langs) {
-  const { createWorker } = await import(`${base}tesseract.esm.min.js`);
+  const createWorker = createWorkerOf(await import(`${base}tesseract.esm.min.js`));
   const errors = [];
   for (const blob of [false, true]) {
     try {

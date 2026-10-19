@@ -4,7 +4,7 @@ import { pageText, hit } from './page-hit.js';
 import { handleSide } from './sel-view.js';
 import { getSel, select, clearSel, placeMenu } from './text-select.js';
 import { beginDrag, cancelDrag, dragging, REACH } from './text-drag.js';
-import { getDrawTool } from './viewer-draw.js';
+import { getDrawTool } from './draw-state.js';
 import { hideMenu } from './text-menu.js';
 import { toast } from './toast.js';
 import { t } from '../core/strings.js';

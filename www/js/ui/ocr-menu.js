@@ -1,64 +1,28 @@
-// OCR sheet: pick recognition languages, recognize this page or the whole document, show progress (cancellable).
-import { recognizePages } from '../app/ocr.js';
-import { ocrInfo, stopOcr } from '../io/ocr-engine.js';
-import { getActive } from './active-doc.js';
+// OCR sheet: open / close, the "this page / whole document" buttons; delegates languages and running.
+import { ocrInfo } from '../io/ocr-engine.js';
+import { paintChips } from './ocr-langs.js';
+import { runOcr, cancelRun } from './ocr-run.js';
 import { toast } from './toast.js';
 import { t } from '../core/strings.js';
-import { getPref, setPref } from '../core/prefs.js';
 const $ = (id) => document.getElementById(id);
-const sheet = $('ocr-sheet'), chips = $('ocr-langs'), run = $('ocr-run'), errBox = $('ocr-error');
-let busy = false, stop = false;
-let langs = getPref('ocrlangs', ['eng', 'rus']);
-async function paintChips() {
-  const info = await ocrInfo();
-  chips.replaceChildren(...(info?.langs ?? []).map((code) => {
-    const b = Object.assign(document.createElement('button'), { className: `ocr-chip${langs.includes(code) ? ' on' : ''}`, textContent: t(`ocr.lang.${code}`) });
-    b.addEventListener('click', () => {
-      langs = langs.includes(code) ? langs.filter((x) => x !== code) : [...langs, code];
-      if (!langs.length) langs = [code];
-      setPref('ocrlangs', langs);
-      paintChips();
-    });
-    return b;
-  }));
-}
+const sheet = $('ocr-sheet');
 export const ocrSheetOpen = () => !sheet.hidden;
-export const hideOcr = () => { sheet.hidden = true; };
+const mark = () => $('tp-ocr').classList.toggle('active', !sheet.hidden);
+export const hideOcr = () => { sheet.hidden = true; mark(); };
 export async function toggleOcr(force) {
   sheet.hidden = !(force ?? sheet.hidden);
+  mark();
   if (sheet.hidden) return;
-  await paintChips();
+  await paintChips($('ocr-langs'));
   if (!(await ocrInfo())) toast(t('ocr.missing'));
 }
-// Viewer is closing: stop a running recognition and hide the sheet.
+// The viewer is closing: stop a running recognition and hide the sheet.
 export function closeOcr() {
-  stop = true;
+  cancelRun();
   hideOcr();
-  stopOcr();
 }
-async function start(pages) {
-  const a = getActive();
-  if (busy || !a) return;
-  busy = true; stop = false; run.hidden = false; errBox.hidden = true;
-  const fill = $('ocr-fill'), status = $('ocr-status');
-  try {
-    const done = await recognizePages(a, a.meta.id, pages(a), langs, {
-      cancelled: () => stop,
-      onPage: (i, n, p) => {
-        fill.style.width = `${((i - 1 + p) / n) * 100}%`;
-        status.textContent = t('ocr.progress').replace('{i}', i).replace('{n}', n).replace('{p}', Math.round(p * 100));
-      },
-    });
-    if (!stop) { toast(t(done ? 'ocr.done' : 'ocr.nothing')); hideOcr(); }
-  } catch (err) {
-    const missing = err.message === 'ocr-missing' || err.message === 'ocr-lang';
-    errBox.textContent = missing ? t('ocr.missing') : `${t('ocr.fail')}: ${String(err?.message ?? err).slice(0, 300)}`;
-    errBox.hidden = false;
-  }
-  busy = false;
-  run.hidden = true;
-}
+const start = async (pages) => { if (await runOcr(pages)) hideOcr(); };
 $('ocr-page').addEventListener('click', () => start((a) => [a.list.current() - 1]));
 $('ocr-all').addEventListener('click', () => start((a) => Array.from({ length: a.pdf.numPages }, (_, i) => i)));
-$('ocr-close').addEventListener('click', () => hideOcr());
-$('ocr-cancel').addEventListener('click', () => { stop = true; stopOcr(); });
+$('ocr-close').addEventListener('click', hideOcr);
+$('ocr-cancel').addEventListener('click', cancelRun);

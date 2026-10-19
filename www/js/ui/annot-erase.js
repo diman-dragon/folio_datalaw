@@ -1,5 +1,5 @@
 // Stroke eraser: removes every annotation touched by the eraser segment (units: x 0..1, y 0..R) and reports it.
-import { getItems, takeItems } from './annot-store.js';
+import { getItems, takeItems } from './annot-data.js';
 import { nodeOf } from './annot-svg.js';
 function pointSeg(px, py, ax, ay, bx, by) {
   const dx = bx - ax, dy = by - ay, l2 = dx * dx + dy * dy;

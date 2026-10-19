@@ -2,15 +2,15 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 import { copyEngine, copyCore, copyLang } from './lib/ocr-layout.mjs';
 const out = 'www/vendor/tesseract';
 const LANGS = ['rus', 'eng', 'ita', 'srp', 'srp_latn'];
 if (fs.existsSync(`${out}/ready.json`) && !process.argv.includes('--force')) { console.log('OCR already vendored (use --force to refetch)'); process.exit(0); }
-const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'folio-ocr-'));
 function unpack(spec) {
-  const name = execFileSync(npm, ['pack', spec, '--pack-destination', tmp, '--silent'], { encoding: 'utf8', shell: process.platform === 'win32' }).trim().split('\n').pop();
+  // one command string through the shell (works for npm.cmd on Windows without the shell+args deprecation)
+  const name = execSync(`npm pack ${spec} --pack-destination "${tmp}" --silent`, { encoding: 'utf8' }).trim().split('\n').pop();
   const dir = path.join(tmp, `u${fs.readdirSync(tmp).length}`);
   fs.mkdirSync(dir);
   execFileSync('tar', ['-xzf', path.join(tmp, name), '-C', dir]);

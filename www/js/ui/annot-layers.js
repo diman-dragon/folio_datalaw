@@ -1,5 +1,5 @@
 // Per-page vector annotation layers (marks blended under ink): created on demand, rebuilt when a page gets painted.
-import { getItems } from './annot-store.js';
+import { getItems } from './annot-data.js';
 import { svgNode, buildNode, layerOf } from './annot-svg.js';
 export function ensureLayers(el) {
   const R = el.offsetHeight / (el.offsetWidth || 1);

@@ -9,18 +9,22 @@
 .tools-panel.pinned .tp-grip i{background:#ef4444}
 .tp-pin{position:absolute;top:0;left:0;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;opacity:.75}
 .tp-pin svg{width:22px;height:22px}
-.tp-pin:hover,.tp-pin.on{opacity:1;background:rgba(255,255,255,.18)}
+.tp-pin{transition:transform .1s,background .12s,box-shadow .12s}
+.tp-pin:hover{opacity:1;background:rgba(255,255,255,.18)}
+.tp-pin:active{transform:scale(.86);background:rgba(255,255,255,.4)}
+.tp-pin.on{opacity:1;background:var(--on-chrome);box-shadow:0 0 0 2px var(--accent)}
 .tp-close{position:absolute;top:0;right:0;width:26px;height:26px;display:grid;place-items:center}
 .tp-close svg{width:24px;height:24px}
 .tp-grid{display:grid;grid-template-columns:repeat(3,38px);gap:6px 4px;justify-content:center}
-.tp-btn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center}
+.tp-btn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;transition:transform .1s,background .12s,box-shadow .12s}
 .tp-btn svg{width:27px;height:27px}
 .tp-btn:hover{background:rgba(255,255,255,.14)}
-.tp-btn.active{background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 2px var(--on-chrome)}
+.tp-btn:active{transform:scale(.86);background:rgba(255,255,255,.4)}
+/* the chosen tool: light plate, ring and a little bigger */
+.tp-btn.active,.tp-btn.active:hover{background:var(--on-chrome);transform:scale(1.1);box-shadow:0 0 0 2px var(--accent),0 3px 10px rgba(0,0,0,.55)}
 .tp-colors{display:grid;grid-template-columns:repeat(5,22px);gap:9px 8px;justify-content:center;margin-top:10px}
 .color-dot{width:22px;height:22px;border-radius:50%;background:var(--c);border:2px solid rgba(255,255,255,.4);transition:transform .12s}
 .color-dot.active{transform:scale(1.2);border-color:#fff;box-shadow:0 0 0 2px var(--c)}
 .color-dot.custom{position:relative;display:block;background:conic-gradient(#ef4444,#facc15,#10b981,#06b6d4,#8b5cf6,#ef4444);overflow:hidden}
 .color-dot.custom input{position:absolute;inset:-6px;width:40px;height:40px;opacity:0;cursor:pointer}
 .color-dot.custom.active{background:var(--c)}
-#edit-btn.active{background:var(--accent-soft)}

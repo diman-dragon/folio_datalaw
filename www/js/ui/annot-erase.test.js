@@ -2,12 +2,12 @@
 import test, { beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { touches, eraseSegment } from './annot-erase.js';
-import { addItem, getItems, clearAnnots } from './annot-store.js';
+import { pushItem, getItems, clearData } from './annot-data.js';
 
 const R = 1.4;
 const stroke = { k: 'pen', c: '#2563eb', w: 0.004, p: [[0.2, 0.2], [0.6, 0.2]] };
 const mark = { k: 'th', c: '#facc15', r: [[0.1, 0.5, 0.4, 0.02]] };
-beforeEach(() => clearAnnots());
+beforeEach(() => clearData());
 
 test('a segment crossing a stroke touches it; a far one does not', () => {
   assert.ok(touches(stroke, [0.4, 0.15], [0.4, 0.25], R, 0.01));
@@ -18,8 +18,8 @@ test('a segment over a text mark touches it', () => {
   assert.ok(!touches(mark, [0.7, 0.49], [0.8, 0.52], R, 0.005));
 });
 test('eraseSegment removes only touched items and reports them', () => {
-  addItem(0, stroke);
-  addItem(0, mark);
+  pushItem(0, stroke);
+  pushItem(0, mark);
   const removed = eraseSegment(0, [0.4, 0.15], [0.4, 0.25], R, 0.01);
   assert.equal(removed.length, 1);
   assert.deepEqual(getItems(0), [mark]);

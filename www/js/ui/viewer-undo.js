@@ -1,5 +1,5 @@
 // Header undo / redo buttons: step through the annotation history of all pages and repaint the affected pages.
-import { undoOp, redoOp } from './annot-store.js';
+import { undoOp, redoOp } from './annot-history.js';
 import { repaintPage } from './annot-layers.js';
 import { clearSel } from './text-select.js';
 import { getActive } from './active-doc.js';

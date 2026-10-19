@@ -1,28 +1,19 @@
-// Active tool / colour state and the freehand tools (pen, marker, eraser) drawn as vector paths.
+// Freehand gestures (pen, marker, eraser): pointer drags drawn live as vector paths and stored as one history step.
 import { ensureLayers } from './annot-layers.js';
-import { addItem, recordErase } from './annot-store.js';
+import { addItem, recordErase } from './annot-history.js';
 import { svgNode, register, HL } from './annot-svg.js';
 import { eraseSegment } from './annot-erase.js';
 import { thin } from '../formats/pdf/annot-thin.js';
-import { emit } from '../core/bus.js';
+import { getDrawTool, getDrawColor } from './draw-state.js';
+import { on } from '../core/bus.js';
 const pages = document.getElementById('viewer-pages');
-const root = document.getElementById('viewer');
 const WIDTH = { pen: 2.8, highlighter: 20, eraser: 14 }; // css px at the zoom of the stroke
 const KIND = { pen: 'pen', highlighter: 'hl', eraser: 'er' };
-let tool = null, color = '#2563eb', g = null;
-export const getDrawTool = () => tool;
-export const getDrawColor = () => color;
-export const setDrawColor = (c) => { color = c; };
-export function setDrawTool(next) {
-  finish();
-  tool = next;
-  root.classList.toggle('draw-active', Boolean(KIND[next]));
-  root.dataset.editTool = next ?? '';
-  emit('toolchange', next);
-}
+let g = null;
 const norm = (v) => Math.round(Math.min(1, Math.max(0, v)) * 10000) / 10000;
 const point = (e) => [norm((e.clientX - g.r.left) / g.r.width), norm((e.clientY - g.r.top) / g.r.height)];
 function down(e) {
+  const tool = getDrawTool();
   if (g || e.button !== 0 || !e.isPrimary || !KIND[tool]) return;
   const el = e.target.closest?.('.pdf-page');
   if (!el?.classList.contains('ready')) return;
@@ -33,7 +24,7 @@ function down(e) {
   g.pts.push(point(e));
   if (tool !== 'eraser') {
     const hl = tool === 'highlighter';
-    g.node = svgNode('path', { fill: 'none', stroke: color, 'stroke-width': g.w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', ...(hl ? { 'stroke-opacity': HL } : {}) });
+    g.node = svgNode('path', { fill: 'none', stroke: getDrawColor(), 'stroke-width': g.w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', ...(hl ? { 'stroke-opacity': HL } : {}) });
     (hl ? mark : ink).append(g.node);
     g.d = `M${g.pts[0][0]} ${g.pts[0][1] * R}`;
     g.node.setAttribute('d', `${g.d}L${g.pts[0][0] + 0.0001} ${g.pts[0][1] * R}`);
@@ -65,13 +56,14 @@ function finish() {
   flush();
   if (g.k === 'eraser') recordErase(g.removed);
   else {
-    const item = { k: KIND[g.k], c: color, w: Math.round(g.w * 1e5) / 1e5, p: thin(g.pts) };
+    const item = { k: KIND[g.k], c: getDrawColor(), w: Math.round(g.w * 1e5) / 1e5, p: thin(g.pts) };
     register(item, g.node);
     addItem(g.i, item);
   }
   g = null;
 }
 const up = (e) => { if (g && e.pointerId === g.pid) finish(); };
+on('toolchange', finish); // a stroke in progress is completed when the tool changes
 pages.addEventListener('pointerdown', down, { passive: false });
 pages.addEventListener('pointermove', move, { passive: false });
 pages.addEventListener('pointerup', up);

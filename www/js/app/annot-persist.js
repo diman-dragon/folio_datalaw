@@ -1,6 +1,7 @@
 // Annotations <-> library: loaded when a document opens, saved (debounced) on every change, flushed on close.
 import { loadAnnots, saveAnnots } from '../data/annot-db.js';
-import { importAll, exportAll, clearAnnots } from '../ui/annot-store.js';
+import { exportAll } from '../ui/annot-data.js';
+import { replaceAll, clearAll } from '../ui/annot-history.js';
 import { toast } from '../ui/toast.js';
 import { t } from '../core/strings.js';
 import { on } from '../core/bus.js';
@@ -16,11 +17,11 @@ on('annotchange', () => {
   timer = setTimeout(flush, 600);
 });
 export function attachAnnots(docId) {
-  importAll(loadAnnots(docId));
+  replaceAll(loadAnnots(docId));
   id = docId;
 }
 export function detachAnnots() {
   flush();
   id = null;
-  clearAnnots();
+  clearAll();
 }

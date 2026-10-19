@@ -4,5 +4,5 @@
 .annot-ink{z-index:3}
 #viewer-pages{user-select:none;-webkit-user-select:none}
 .pdf-page{cursor:text}
-.draw-active .pdf-page{cursor:crosshair}
-#viewer[data-edit-tool="eraser"] .pdf-page{cursor:cell}
+/* the cursor becomes the chosen tool (set by ui/tool-cursor.js; pen / marker / selection show the current colour) */
+#viewer:is([data-edit-tool="pen"],[data-edit-tool="highlighter"],[data-edit-tool="eraser"],[data-edit-tool="text-select"],[data-edit-tool="underline"]) :is(#viewer-scroll,.pdf-page){cursor:var(--tool-cursor,crosshair)}
