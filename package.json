@@ -1,6 +1,6 @@
 {
   "name": "folio_datalaw",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "description": "Folio Desktop - PDF viewer (Tauri 2). MVP: library + open PDF.",
   "type": "module",

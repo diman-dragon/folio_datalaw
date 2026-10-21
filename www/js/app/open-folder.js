@@ -1,4 +1,4 @@
-// "Open folder" action: choose a folder, find every PDF inside (recursively) and add them to the library.
+// "Open folder" action: choose a folder, find every document inside (recursively) and add them to the library.
 import { pickFolder } from '../io/pick-folder.js';
 import { expandPaths } from '../io/expand-paths.js';
 import { importMany } from './import-many.js';

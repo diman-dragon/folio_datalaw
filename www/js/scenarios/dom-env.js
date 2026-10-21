@@ -56,10 +56,10 @@ export function ptr(type, x, y, target = $('viewer-pages').children[0]) {
   target.dispatchEvent(e);
 }
 export const key = (k, o = {}) => document.dispatchEvent(new window.KeyboardEvent('keydown', { key: k, bubbles: true, cancelable: true, ...o }));
-export async function drag(points) {
-  ptr('pointerdown', ...points[0]);
-  for (const p of points.slice(1)) ptr('pointermove', ...p);
+export async function drag(points, target) {
+  ptr('pointerdown', ...points[0], target);
+  for (const p of points.slice(1)) ptr('pointermove', ...p, target);
   await wait(30);
-  ptr('pointerup', ...points.at(-1));
+  ptr('pointerup', ...points.at(-1), target);
   await wait(40);
 }

@@ -47,3 +47,16 @@ test('corrupt storage is treated as an empty library', () => {
   mem.set('folio.library', '{not json');
   assert.deepEqual(listDocs(), []);
 });
+
+test('kind and title are stored and refreshed, progress is kept', () => {
+  const d = addDoc({ ...rec('/a/book.fb2'), kind: 'fb2', title: 'Автор — Книга' });
+  assert.equal(d.kind, 'fb2');
+  assert.equal(d.title, 'Автор — Книга');
+  updateDoc(d.id, { lastPage: 4 });
+  const again = addDoc({ ...rec('/a/book.fb2'), kind: 'fb2', title: 'Автор — Новая' });
+  assert.equal(again.title, 'Автор — Новая');
+  assert.equal(again.lastPage, 4);
+});
+test('a record without a kind is a PDF', () => {
+  assert.equal(addDoc(rec('/a/x.pdf')).kind, 'pdf');
+});

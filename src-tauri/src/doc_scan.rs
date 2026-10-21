@@ -1,14 +1,14 @@
-//! Expands files and folders into a flat list of PDF paths, and checks which PDF paths still exist.
+//! Expands files and folders into a flat list of document paths (PDF, FB2, FB2.ZIP), and checks which still exist.
 use std::fs;
 use std::path::{Path, PathBuf};
+
+use crate::doc_guard::doc_kind;
 
 pub const MAX_DEPTH: usize = 8;
 pub const MAX_FILES: usize = 5000;
 
-fn is_pdf(path: &Path) -> bool {
-    path.extension()
-        .and_then(|e| e.to_str())
-        .is_some_and(|e| e.eq_ignore_ascii_case("pdf"))
+fn is_doc(path: &Path) -> bool {
+    doc_kind(path).is_some()
 }
 
 fn walk(dir: &Path, depth: usize, out: &mut Vec<PathBuf>) {
@@ -25,20 +25,20 @@ fn walk(dir: &Path, depth: usize, out: &mut Vec<PathBuf>) {
         let Ok(meta) = fs::symlink_metadata(&p) else { continue };
         if meta.is_dir() {
             walk(&p, depth + 1, out); // symlinked folders are skipped: no cycles
-        } else if (meta.is_file() || meta.file_type().is_symlink()) && is_pdf(&p) && p.is_file() {
+        } else if (meta.is_file() || meta.file_type().is_symlink()) && is_doc(&p) && p.is_file() {
             out.push(p);
         }
     }
 }
 
-/// Files stay as they are (when they are PDFs); folders are searched recursively.
+/// Files stay as they are (when they are documents); folders are searched recursively.
 pub fn expand(paths: &[String]) -> Vec<String> {
     let mut out = Vec::new();
     for raw in paths {
         let p = Path::new(raw);
         if p.is_dir() {
             walk(p, 0, &mut out);
-        } else if is_pdf(p) && p.is_file() && out.len() < MAX_FILES {
+        } else if is_doc(p) && p.is_file() && out.len() < MAX_FILES {
             out.push(p.to_path_buf());
         }
     }
@@ -49,13 +49,13 @@ pub fn expand(paths: &[String]) -> Vec<String> {
         .collect()
 }
 
-/// One flag per path: does a PDF file exist there right now.
+/// One flag per path: does a document file exist there right now.
 pub fn existing(paths: &[String]) -> Vec<bool> {
     paths
         .iter()
         .map(|s| {
             let p = Path::new(s);
-            is_pdf(p) && p.is_file()
+            is_doc(p) && p.is_file()
         })
         .collect()
 }

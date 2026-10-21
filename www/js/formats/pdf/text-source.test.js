@@ -33,3 +33,17 @@ test('native text is computed once per page', async () => {
   await s.getText(0); await s.getText(0); await s.hasText(0);
   assert.equal(calls, 1);
 });
+
+test('an exact table (FB2) counts as text even when it is short, a short PDF table does not', async () => {
+  const short = { w: 540, h: 780, chars: [{ ch: 'a', x: 0, y: 0, w: 1, h: 1 }] };
+  const exact = createTextSource(pdf, async () => ({ ...short, exact: true }));
+  assert.equal(await exact.hasText(0), true);
+  const plain = createTextSource(pdf, async () => short);
+  assert.equal(await plain.hasText(0), false);
+});
+test('by default FB2-style pages supply their own char table (page.chars)', async () => {
+  const fb2Page = { chars: async () => longText };
+  const s = createTextSource({ getPage: async () => fb2Page });
+  assert.equal(await s.getText(0), longText);
+  assert.equal(await s.hasText(0), true);
+});

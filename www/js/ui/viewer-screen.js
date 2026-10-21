@@ -23,7 +23,7 @@ import './viewer-undo.js';
 import './edit-keys.js';
 import { coverFromView } from '../app/cover-from-view.js';
 import { updateDoc } from '../data/library.js';
-import { stripExt } from '../core/format.js';
+import { stripDocExt } from '../core/format.js';
 const $ = (id) => document.getElementById(id);
 export async function openViewer(meta, pdf) {
   await closeViewer();
@@ -31,7 +31,7 @@ export async function openViewer(meta, pdf) {
   const scroller = $('viewer-scroll');
   const paged = () => root.dataset.mode === 'paged';
   root.dataset.mode = savedMode();
-  $('viewer-title').textContent = stripExt(meta.name);
+  $('viewer-title').textContent = meta.title || stripDocExt(meta.name);
   $('viewer-back').onclick = closeViewer;
   root.hidden = false;
   resetThumbs();

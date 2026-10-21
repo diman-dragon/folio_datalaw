@@ -1,8 +1,8 @@
-//! Tests for pdf_scan: recursion, filtering, limits and existence checks.
+//! Tests for doc_scan: recursion, filtering by document type, limits and existence checks.
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use crate::pdf_scan::{existing, expand, MAX_DEPTH};
+use crate::doc_scan::{existing, expand, MAX_DEPTH};
 
 fn sandbox(name: &str) -> PathBuf {
     let dir = std::env::temp_dir().join(format!("folio_scan_{}_{}", std::process::id(), name));
@@ -21,16 +21,22 @@ fn s(p: &Path) -> String {
 }
 
 #[test]
-fn folder_is_searched_recursively_and_only_pdfs_are_kept() {
+fn folder_is_searched_recursively_and_only_documents_are_kept() {
     let d = sandbox("rec");
     touch(&d.join("a.pdf"));
     touch(&d.join("sub/b.PDF"));
     touch(&d.join("sub/deeper/c.pdf"));
+    touch(&d.join("sub/book.fb2"));
+    touch(&d.join("sub/deeper/novel.FB2.ZIP"));
     fs::write(d.join("notes.txt"), b"x").unwrap();
     fs::write(d.join("sub/img.png"), b"x").unwrap();
+    fs::write(d.join("sub/archive.zip"), b"x").unwrap();
     let got = expand(&[s(&d)]);
-    assert_eq!(got.len(), 3);
-    assert!(got.iter().all(|p| p.to_lowercase().ends_with(".pdf")));
+    assert_eq!(got.len(), 5);
+    assert!(got.iter().all(|p| {
+        let l = p.to_lowercase();
+        l.ends_with(".pdf") || l.ends_with(".fb2") || l.ends_with(".fb2.zip")
+    }));
 }
 
 #[test]

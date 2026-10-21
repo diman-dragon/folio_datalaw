@@ -20,11 +20,11 @@ export function updateDoc(id, patch) {
   write(docs);
   return docs[i];
 }
-export function addDoc({ path, name, size, pages }) {
+export function addDoc({ path, name, size, pages, kind = 'pdf', title = null }) {
   const found = read().find((d) => d.path === path);
-  if (found) return updateDoc(found.id, { name, size, pages, openedAt: Date.now() });
+  if (found) return updateDoc(found.id, { name, size, pages, kind, title, openedAt: Date.now() });
   const now = Date.now();
-  const doc = { id: newId(), path, name, size, pages, lastPage: 1, zoom: null, addedAt: now, openedAt: now };
+  const doc = { id: newId(), path, name, size, pages, kind, title, lastPage: 1, zoom: null, addedAt: now, openedAt: now };
   write([doc, ...read()]);
   return doc;
 }

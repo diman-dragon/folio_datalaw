@@ -7,6 +7,7 @@ import { t } from '../core/strings.js';
 test('rust codes map to messages', () => {
   assert.equal(errorText('not_found'), t('err.missing'));
   assert.equal(errorText('not_pdf'), t('err.invalid'));
+  assert.equal(errorText('not_doc'), t('err.invalid'));
   assert.equal(errorText('too_large'), t('err.large'));
   assert.equal(errorText('io: denied'), t('err.open'));
 });

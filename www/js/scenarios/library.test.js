@@ -12,8 +12,8 @@ window.__TAURI__ = {
   core: { invoke: async (cmd, args) => {
     calls.push(cmd);
     if (cmd === 'files_exist') return args.paths.map((p) => existing.has(p));
-    if (cmd === 'list_pdfs') return args.paths.flatMap((p) => (p === '/folder' ? [THREE, LOCKED] : [p]));
-    if (cmd === 'read_pdf') return fs.readFileSync(args.path).buffer.slice(0);
+    if (cmd === 'list_docs') return args.paths.flatMap((p) => (p === '/folder' ? [THREE, LOCKED] : [p]));
+    if (cmd === 'read_doc') return fs.readFileSync(args.path).buffer.slice(0);
     throw new Error(`unexpected ${cmd}`);
   } },
   event: { listen: async (n, cb) => { listeners[n] = cb; } },
@@ -44,7 +44,7 @@ test('a dropped folder is expanded by Rust and imported; protected files are ski
   ok(!$('drop').hidden, 'veil shows');
   await listeners['tauri://drag-drop']({ payload: { paths: ['/folder'] } });
   await wait(1500);
-  ok(calls.includes('list_pdfs') && $('drop').hidden, 'expanded, veil hidden');
+  ok(calls.includes('list_docs') && $('drop').hidden, 'expanded, veil hidden');
   ok(listDocs().find((d) => d.path === THREE)?.pages === 3, 'readable PDF added with its page count');
   ok(!listDocs().find((d) => d.path === LOCKED), 'password-protected PDF not added');
   ok(toast().startsWith('Добавлено: 1'), toast());

@@ -17,8 +17,6 @@
   "www/js/io/expand-paths.js": "thin Tauri bridge: exercised by scenarios/library.test.js",
   "www/js/io/files-exist.js": "thin Tauri bridge: exercised by scenarios/library.test.js",
   "www/js/io/pick-folder.js": "thin Tauri bridge: exercised by scenarios/library.test.js",
-  "www/js/io/pick-pdfs.js": "thin Tauri bridge: exercised by scenarios/library.test.js",
-  "www/js/io/read-pdf.js": "thin Tauri bridge: exercised by scenarios/library.test.js",
   "www/js/app/annot-persist.js": "load / save wiring: exercised by scenarios/persistence-ocr.test.js",
   "www/js/app/cover-from-view.js": "needs a real canvas (jsdom has none)",
   "www/js/app/ensure-cover.js": "needs a real canvas (jsdom has none)",
@@ -31,5 +29,11 @@
   "www/js/app/open-paths.js": "orchestration: exercised by scenarios/library.test.js",
   "www/js/app/open-stored.js": "orchestration: exercised by scenarios/library.test.js",
   "www/js/app/remove-entry.js": "orchestration: exercised by scenarios/library.test.js",
-  "www/js/scenarios/dom-env.js": "test helper, not product logic"
+  "www/js/scenarios/dom-env.js": "test helper, not product logic",
+  "www/js/io/read-doc.js": "thin Tauri bridge: exercised by scenarios/library.test.js",
+  "www/js/io/pick-docs.js": "thin Tauri bridge: exercised by scenarios/library.test.js",
+  "www/js/formats/open-any.js": "chooses the engine by file name: exercised by scenarios/fb2.test.js and library.test.js",
+  "www/js/formats/fb2/fb2-measure.js": "needs a real canvas for font metrics (jsdom has none); the layout is tested with a fake measure",
+  "www/js/formats/fb2/fb2-image.js": "needs createImageBitmap (browser only); failures are handled and tested in fb2-doc.test.js",
+  "www/js/formats/fb2/fb2-deps.js": "wires browser services together: exercised by scenarios/fb2.test.js"
 }

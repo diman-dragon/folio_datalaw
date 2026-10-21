@@ -1,7 +1,7 @@
 // Tests for core/format.js.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fileName, stripExt, isPdfPath, fmtSize, progress } from './format.js';
+import { fileName, stripExt, docKind, isDocPath, stripDocExt, fmtSize, progress } from './format.js';
 
 test('fileName handles windows and posix paths', () => {
   assert.equal(fileName('D:\\Docs\\Договор №1.pdf'), 'Договор №1.pdf');
@@ -12,9 +12,18 @@ test('stripExt removes only the last extension', () => {
   assert.equal(stripExt('a.b.pdf'), 'a.b');
   assert.equal(stripExt('noext'), 'noext');
 });
-test('isPdfPath is case-insensitive', () => {
-  assert.ok(isPdfPath('X.PDF'));
-  assert.ok(!isPdfPath('x.pdf.txt'));
+test('docKind knows PDF, FB2 and FB2.ZIP (any case) and nothing else', () => {
+  assert.equal(docKind('X.PDF'), 'pdf');
+  assert.equal(docKind('Книга.Fb2'), 'fb2');
+  assert.equal(docKind('/a/b/book.FB2.ZIP'), 'fb2');
+  assert.equal(docKind('archive.zip'), null);
+  assert.equal(docKind('x.pdf.txt'), null);
+  assert.ok(isDocPath('a.pdf') && !isDocPath('a.docx'));
+});
+test('stripDocExt removes the whole document extension', () => {
+  assert.equal(stripDocExt('Книга.fb2.zip'), 'Книга');
+  assert.equal(stripDocExt('a.b.pdf'), 'a.b');
+  assert.equal(stripDocExt('noext'), 'noext');
 });
 test('fmtSize picks the unit', () => {
   assert.equal(fmtSize(512), '512 B');
