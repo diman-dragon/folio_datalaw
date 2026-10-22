@@ -1,0 +1,48 @@
+{
+  "libchange": {
+    "kind": "bus", "payload": "нет",
+    "about": "Данные библиотеки изменились (запись, обложка, закрытие документа): экран библиотеки перерисовывается.",
+    "emit": ["www/js/app/cover-from-view.js", "www/js/app/ensure-cover.js", "www/js/app/import-many.js", "www/js/app/open-path.js", "www/js/app/remove-entry.js", "www/js/ui/viewer-close.js"],
+    "on": ["www/js/ui/home-screen.js"]
+  },
+  "themechange": {
+    "kind": "bus", "payload": "'light' | 'dark'",
+    "about": "Тема применена. Пока без слушателей (см. debt.md).",
+    "emit": ["www/js/core/theme.js"], "on": []
+  },
+  "toolchange": {
+    "kind": "bus", "payload": "имя инструмента | null",
+    "about": "Выбран другой инструмент правки: жесты завершаются, выделение снимается, курсор меняется.",
+    "emit": ["www/js/ui/draw-state.js"],
+    "on": ["www/js/ui/text-mouse.js", "www/js/ui/tool-cursor.js", "www/js/ui/viewer-draw.js"]
+  },
+  "colorchange": {
+    "kind": "bus", "payload": "'#rrggbb'",
+    "about": "Выбран другой цвет: курсор инструмента перерисовывается.",
+    "emit": ["www/js/ui/draw-state.js"], "on": ["www/js/ui/tool-cursor.js"]
+  },
+  "annotchange": {
+    "kind": "bus", "payload": "{ undo, redo } - число шагов",
+    "about": "Изменилась история пометок: кнопки отмены / возврата, отложенное сохранение.",
+    "emit": ["www/js/ui/annot-history.js"],
+    "on": ["www/js/app/annot-persist.js", "www/js/ui/viewer-undo.js"]
+  },
+  "viewchange": {
+    "kind": "bus", "payload": "нет",
+    "about": "Изменился масштаб или раскладка страниц: выделение и жесты сбрасываются.",
+    "emit": ["www/js/ui/viewer-zoom.js"], "on": ["www/js/ui/text-mouse.js"]
+  },
+  "pageready": {
+    "kind": "dom", "payload": "target = .pdf-page",
+    "about": "Страница получила холст с настоящим размером: рисуются пометки. Всплывает по DOM.",
+    "emit": ["www/js/formats/pdf/page-painter.js"], "on": ["www/js/ui/annot-layers.js"]
+  },
+  "pagehide": {
+    "kind": "dom", "payload": "target = .pdf-page",
+    "about": "Страница потеряла холст (ушла далеко от окна): слои пометок и выделение убираются. Всплывает по DOM.",
+    "emit": ["www/js/formats/pdf/page-painter.js"], "on": ["www/js/ui/annot-layers.js", "www/js/ui/text-mouse.js"]
+  },
+  "tauri://drag-enter": { "kind": "tauri", "payload": "нет", "about": "Файлы над окном: показать завесу.", "emit": [], "on": ["www/js/io/drop-files.js"] },
+  "tauri://drag-leave": { "kind": "tauri", "payload": "нет", "about": "Файлы ушли из окна: убрать завесу.", "emit": [], "on": ["www/js/io/drop-files.js"] },
+  "tauri://drag-drop": { "kind": "tauri", "payload": "{ paths: string[] }", "about": "Файлы и папки брошены в окно: открыть или импортировать.", "emit": [], "on": ["www/js/io/drop-files.js"] }
+}

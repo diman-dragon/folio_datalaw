@@ -1,0 +1,14 @@
+{
+  "theme": { "store": "localStorage", "owner": "theme", "value": "'light' | 'dark'", "files": ["www/js/core/theme.js"], "needle": "'theme'" },
+  "library": { "store": "localStorage", "owner": "library-store", "value": "массив записей { id, path, name, size, pages, kind, title, lastPage, zoom, addedAt, openedAt }", "files": ["www/js/data/library.js"], "needle": "KEY = 'library'", "perDocument": true, "dropper": "removeDoc" },
+  "annot.<docId>": { "store": "localStorage", "owner": "annotations", "value": "{ индексСтраницы: пометки[] }", "files": ["www/js/data/annot-db.js"], "needle": "'annot.'", "perDocument": true, "dropper": "dropAnnots" },
+  "cover.<docId>": { "store": "localStorage", "owner": "covers", "value": "data URL маленького JPEG", "files": ["www/js/data/covers.js"], "needle": "'cover.'", "perDocument": true, "dropper": "dropCover" },
+  "idb:folio/ocr": { "store": "indexedDB", "owner": "ocr", "value": "ключ '<docId>:<страница>' -> { w, h, words }", "files": ["www/js/data/ocr-store.js", "www/js/data/idb.js"], "needle": "createObjectStore('ocr')", "perDocument": true, "dropper": "dropOcr" },
+  "pref.color": { "store": "localStorage", "owner": "tools-panel", "value": "'#rrggbb'", "files": ["www/js/ui/color-palette.js"], "needle": "'color'" },
+  "pref.ocrlangs": { "store": "localStorage", "owner": "ocr", "value": "коды языков: ['eng', 'rus']", "files": ["www/js/ui/ocr-langs.js"], "needle": "'ocrlangs'" },
+  "pref.panelpos": { "store": "localStorage", "owner": "tools-panel", "value": "{ fx, fy } - доли 0..1", "files": ["www/js/ui/panel-drag.js"], "needle": "'panelpos'" },
+  "pref.panelpinned": { "store": "localStorage", "owner": "tools-panel", "value": "boolean", "files": ["www/js/ui/panel-pin.js"], "needle": "'panelpinned'" },
+  "pref.panelopen": { "store": "localStorage", "owner": "tools-panel", "value": "boolean", "files": ["www/js/ui/tools-panel.js"], "needle": "'panelopen'" },
+  "thumbsPinned": { "store": "localStorage", "owner": "thumbnails", "value": "'1' | '0' (не через prefs, см. debt.md)", "files": ["www/js/ui/thumbs-panel.js"], "needle": "'thumbsPinned'" },
+  "viewMode": { "store": "localStorage", "owner": "view-mode", "value": "'ribbon' | 'paged' (не через prefs, см. debt.md)", "files": ["www/js/ui/viewer-mode.js"], "needle": "'viewMode'" }
+}

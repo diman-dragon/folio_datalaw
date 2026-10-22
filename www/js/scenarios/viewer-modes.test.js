@@ -28,15 +28,23 @@ test('zoom controls and shortcuts', () => {
   $('zoom-fit').click(); ok(getDoc(meta.id).zoom === null, 'fit is stored as null');
 });
 test('single-page mode: one .cur page, keys flip pages, mode is remembered', async () => {
-  $('mode-btn').click();
+  $('mode-paged').click();
   ok(C.classList.contains('paged') && C.querySelectorAll('.cur').length === 1, 'paged, one current page');
+  ok($('mode-paged').classList.contains('on') && $('mode-paged').getAttribute('aria-pressed') === 'true' && !$('mode-ribbon').classList.contains('on'), 'the pair follows the mode');
   ok($('zoom-fit').textContent === 'По странице' && mem.get('folio.viewMode') === 'paged', 'caption + persisted');
   await wait(400);
   const before = Number($('page-input').value);
   key('ArrowRight'); ok(Number($('page-input').value) === before + 1, 'ArrowRight flips');
   await wait(400); key('End'); ok($('page-input').value === '12', 'End');
   key('Home'); ok($('page-input').value === '1', 'Home');
-  $('mode-btn').click(); ok(!C.classList.contains('paged'), 'back to ribbon');
+  $('mode-ribbon').click(); ok(!C.classList.contains('paged'), 'back to ribbon');
+});
+test('header: the two mode buttons are a toggle pair, the progress line and zoom label work', () => {
+  ok($('mode-ribbon').getAttribute('aria-pressed') === 'true' && $('mode-paged').getAttribute('aria-pressed') === 'false', 'ribbon pressed');
+  ok($('read-fill').style.width !== '' && Number($('read-progress').getAttribute('aria-valuenow')) > 0, 'reading progress ' + $('read-fill').style.width);
+  $('zoom-in').click(); $('zoom-label').click();
+  ok($('zoom-label').textContent === '100%', 'clicking the percentage resets the zoom');
+  $('zoom-fit').click();
 });
 test('thumbnails are an overlay: edge / button open, outside click closes, pin keeps', () => {
   ok(!main.classList.contains('open'), 'closed by default');

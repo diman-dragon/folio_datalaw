@@ -7,10 +7,12 @@ const isOpen = () => main.classList.contains('open');
 function setOpen(on) {
   main.classList.toggle('open', on);
   $('thumbs-btn').classList.toggle('on', on);
+  $('thumbs-btn').setAttribute('aria-pressed', String(on));
 }
 function setPinned(on) {
   pinned = on;
   $('pin-btn').classList.toggle('on', on);
+  $('pin-btn').setAttribute('aria-pressed', String(on));
   store.set('thumbsPinned', on ? '1' : '0');
   if (on) setOpen(true);
 }
@@ -21,7 +23,7 @@ document.addEventListener('pointerdown', (e) => {
   if (isOpen() && !pinned && !e.target.closest('#thumbs, #thumbs-btn')) setOpen(false);
 });
 // Called when a document opens (pinned panels come back open) and by Esc (returns true when it closed something).
-export const resetThumbs = () => { $('pin-btn').classList.toggle('on', pinned); setOpen(pinned); };
+export const resetThumbs = () => { $('pin-btn').classList.toggle('on', pinned); $('pin-btn').setAttribute('aria-pressed', String(pinned)); setOpen(pinned); };
 export function closeThumbs() {
   if (!isOpen() || pinned) return false;
   setOpen(false);

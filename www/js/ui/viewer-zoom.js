@@ -27,6 +27,7 @@ export function createZoom({ list, scroller, initial, fitKind, onChange }) {
   document.getElementById('zoom-in').onclick = api.in;
   document.getElementById('zoom-out').onclick = api.out;
   document.getElementById('zoom-fit').onclick = api.fit;
+  label.onclick = api.reset; // clicking the percentage goes back to 100%
   const ro = new ResizeObserver(() => {
     clearTimeout(timer);
     timer = setTimeout(api.refit, 150);

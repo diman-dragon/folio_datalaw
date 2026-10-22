@@ -1,0 +1,19 @@
+[
+  { "keys": "Ctrl+O", "scope": "library", "about": "Открыть файлы (можно несколько)", "file": "www/js/ui/home-toolbar.js", "needle": "openDialog()" },
+  { "keys": "Ctrl+Shift+O", "scope": "library", "about": "Открыть папку", "file": "www/js/ui/home-toolbar.js", "needle": "e.shiftKey" },
+  { "keys": "Правый клик по карточке", "scope": "library", "about": "Убрать из библиотеки", "file": "www/js/ui/home-events.js", "needle": "'contextmenu'" },
+  { "keys": "Esc", "scope": "viewer", "about": "Сначала закрыть временное (лист OCR, выделение, инструмент, миниатюры), затем в библиотеку", "file": "www/js/ui/viewer-keys.js", "needle": "'Escape'" },
+  { "keys": "Ctrl+= / Ctrl++", "scope": "viewer", "about": "Увеличить", "file": "www/js/ui/viewer-keys.js", "needle": "'='" },
+  { "keys": "Ctrl+-", "scope": "viewer", "about": "Уменьшить", "file": "www/js/ui/viewer-keys.js", "needle": "'-'" },
+  { "keys": "Ctrl+0", "scope": "viewer", "about": "Масштаб 100%", "file": "www/js/ui/viewer-keys.js", "needle": "'0'" },
+  { "keys": "Ctrl+колесо", "scope": "viewer", "about": "Масштаб колесом", "file": "www/js/ui/viewer-keys.js", "needle": "'wheel'" },
+  { "keys": "Enter в поле страницы", "scope": "viewer", "about": "Перейти к странице", "file": "www/js/ui/viewer-pager.js", "needle": "'Enter'" },
+  { "keys": "Ctrl+Z", "scope": "editing", "about": "Отменить", "file": "www/js/ui/edit-keys.js", "needle": "'z'" },
+  { "keys": "Ctrl+Y / Ctrl+Shift+Z", "scope": "editing", "about": "Вернуть", "file": "www/js/ui/edit-keys.js", "needle": "'y'" },
+  { "keys": "Ctrl+C", "scope": "editing", "about": "Копировать выделенный текст", "file": "www/js/ui/edit-keys.js", "needle": "'c'" },
+  { "keys": "Двойной клик по тексту", "scope": "editing", "about": "Выделить слово", "file": "www/js/ui/text-mouse.js", "needle": "'dblclick'" },
+  { "keys": "← →", "scope": "paged", "about": "Предыдущая / следующая страница", "file": "www/js/ui/viewer-paged-nav.js", "needle": "'ArrowRight'" },
+  { "keys": "PgUp / PgDn / Пробел", "scope": "paged", "about": "Страница назад / вперёд (когда страница помещается или на краю)", "file": "www/js/ui/viewer-paged-nav.js", "needle": "'PageDown'" },
+  { "keys": "Home / End", "scope": "paged", "about": "Первая / последняя страница", "file": "www/js/ui/viewer-paged-nav.js", "needle": "'Home'" },
+  { "keys": "Колесо мыши", "scope": "paged", "about": "Листать страницы (на краю страницы)", "file": "www/js/ui/viewer-paged-nav.js", "needle": "'wheel'" }
+]

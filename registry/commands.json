@@ -1,0 +1,18 @@
+{
+  "commands": {
+    "read_doc": {
+      "about": "Байты PDF / FB2 / FB2.ZIP: единственная точка чтения файлов, через doc_guard (расширение, сигнатура, лимит).",
+      "rust": "src-tauri/src/commands/read_doc.rs", "guard": "doc_guard", "js": "www/js/io/read-doc.js"
+    },
+    "list_docs": {
+      "about": "Файлы и папки -> плоский список путей документов (папки обходятся рекурсивно).",
+      "rust": "src-tauri/src/commands/list_docs.rs", "guard": "doc_scan", "js": "www/js/io/expand-paths.js"
+    },
+    "files_exist": {
+      "about": "Какие из путей ещё существуют на диске (библиотека скрывает остальные).",
+      "rust": "src-tauri/src/commands/files_exist.rs", "guard": "doc_scan", "js": "www/js/io/files-exist.js"
+    }
+  },
+  "plugins": { "dialog": "диалог выбора файлов и папок (www/js/io/bridge.js: openDialog)" },
+  "permissions": ["core:default", "dialog:allow-open"]
+}

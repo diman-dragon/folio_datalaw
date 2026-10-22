@@ -84,11 +84,11 @@ test('OCR leaves pages that already have text alone (only image pages need it)',
   ok(done === 0 && calls === 0, 'no page was recognized');
 });
 test('the single-page mode and the pager work with FB2 pages', async () => {
-  $('mode-btn').click();
+  $('mode-paged').click();
   ok(C.classList.contains('paged') && C.querySelectorAll('.cur').length === 1, 'paged');
   await wait(400); key('ArrowRight');
   ok(Number($('page-input').value) >= 2, `page ${$('page-input').value}`);
-  $('mode-btn').click();
+  $('mode-ribbon').click();
 });
 test('after closing, the FB2 card shows its label and title in the library', async () => {
   key('Escape'); await wait(60);

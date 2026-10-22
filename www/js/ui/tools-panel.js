@@ -12,6 +12,7 @@ const place = initPanelDrag(panel, isPinned);
 export function showPanel(open, { save = true } = {}) {
   panel.hidden = !open;
   editBtn.classList.toggle('active', open);
+  editBtn.setAttribute('aria-pressed', String(open));
   if (save) setPref('panelopen', open);
   if (open) place(); else clearTool();
 }

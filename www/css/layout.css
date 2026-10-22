@@ -1,6 +1,4 @@
-/* App shell: header bar and the scrolling body of the library screen. */
+/* App shell: the scrolling body of the library screen (the header bar lives in header.css). */
 #app{height:100%;display:flex;flex-direction:column}
 #home{flex:1;min-height:0;display:flex;flex-direction:column}
-.bar{display:flex;align-items:center;gap:8px;min-height:52px;padding:0 12px 0 20px;background:var(--chrome);color:var(--on-chrome);border-bottom:1px solid var(--chrome-line)}
-.bar h1{flex:1;min-width:0;font-size:17px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .body{flex:1;overflow-y:auto;padding:20px 24px}

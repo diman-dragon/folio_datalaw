@@ -1,0 +1,339 @@
+{
+  "app-shell": {
+    "kind": "ui",
+    "about": "Точка входа и каркас окна: тема, источники файлов, контейнер #app.",
+    "files": ["www/js/main.js", "www/css/layout.css"],
+    "ids": ["app"],
+    "icons": [],
+    "uses": ["document-open", "drop-veil", "library-screen", "native-bridge", "strings", "theme", "toast"]
+  },
+  "ui-kit": {
+    "kind": "ui",
+    "about": "Общие примитивы интерфейса: токены цветов, кнопки, сброс стилей, SVG-иконка.",
+    "files": ["www/css/base.css", "www/css/theme.css", "www/js/ui/icon.js"],
+    "ids": [],
+    "icons": [],
+    "classes": ["btn", "btn-ghost", "icon-btn", "muted", "small"],
+    "uses": []
+  },
+  "theme": {
+    "kind": "ui",
+    "about": "Светлая / тёмная тема: состояние, применение к <html>, кнопка в шапке библиотеки.",
+    "files": ["www/js/core/theme.js", "www/js/ui/theme-toggle.js"],
+    "ids": ["theme-btn"],
+    "icons": ["moon"],
+    "uses": ["bus", "storage"]
+  },
+  "app-bar": {
+    "kind": "ui",
+    "about": "Стили шапок окна (библиотека и панель просмотра): зоны, группы, разделители.",
+    "files": ["www/css/header.css"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "toast": {
+    "kind": "ui",
+    "about": "Короткое всплывающее сообщение.",
+    "files": ["www/js/ui/toast.js", "www/css/toast.css"],
+    "ids": ["toast"],
+    "icons": [],
+    "uses": []
+  },
+  "password-dialog": {
+    "kind": "ui",
+    "about": "Запрос пароля PDF в нативном <dialog>.",
+    "files": ["www/js/ui/password-dialog.js", "www/css/dialog.css"],
+    "ids": ["pw", "pw-msg", "pw-input", "pw-cancel"],
+    "icons": [],
+    "uses": ["strings"]
+  },
+  "drop-veil": {
+    "kind": "ui",
+    "about": "Завеса «Отпустите файл» и приём перетаскивания файлов и папок (пути от Tauri).",
+    "files": ["www/js/io/drop-files.js", "www/css/drop.css"],
+    "ids": ["drop"],
+    "icons": [],
+    "uses": ["native-bridge"]
+  },
+  "clipboard": {
+    "kind": "service",
+    "about": "Копирование текста в буфер обмена с запасным путём для старых WebView.",
+    "files": ["www/js/ui/clipboard.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "active-doc": {
+    "kind": "service",
+    "about": "Документ, открытый сейчас в просмотрщике (для модулей, которым он нужен).",
+    "files": ["www/js/ui/active-doc.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "edit-state": {
+    "kind": "ui",
+    "about": "Выбранный инструмент и цвет рисования: состояние и события toolchange / colorchange.",
+    "files": ["www/js/ui/draw-state.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["bus"]
+  },
+  "bus": {
+    "kind": "service",
+    "about": "Шина событий между модулями (on / emit).",
+    "files": ["www/js/core/bus.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "storage": {
+    "kind": "service",
+    "about": "Хранилище: localStorage с префиксом, типизированные настройки, IndexedDB.",
+    "files": ["www/js/core/storage.js", "www/js/core/prefs.js", "www/js/data/idb.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "strings": {
+    "kind": "service",
+    "about": "Тексты интерфейса, собираемые из JS (русский).",
+    "files": ["www/js/core/strings.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "file-meta": {
+    "kind": "service",
+    "about": "Чистые функции: имя файла, вид документа (pdf / fb2), размер, процент прочтения.",
+    "files": ["www/js/core/format.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "native-bridge": {
+    "kind": "native",
+    "about": "JS-обёртки над Tauri: единственное место с __TAURI__ и по одному файлу на команду / диалог.",
+    "files": ["www/js/io/bridge.js", "www/js/io/read-doc.js", "www/js/io/pick-docs.js", "www/js/io/pick-folder.js", "www/js/io/expand-paths.js", "www/js/io/files-exist.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "native-backend": {
+    "kind": "native",
+    "about": "Rust: команды для UI, охрана чтения файлов (doc_guard), поиск документов (doc_scan).",
+    "files": ["src-tauri/src/*.rs", "src-tauri/src/commands/*.rs"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "library-store": {
+    "kind": "domain",
+    "about": "Записи библиотеки, правило «Читаю сейчас», проверка читаемости файлов.",
+    "files": ["www/js/data/library.js", "www/js/app/reading.js", "www/js/app/library-health.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["native-bridge", "storage"]
+  },
+  "covers": {
+    "kind": "domain",
+    "about": "Обложки библиотеки: хранение, создание из страницы или открытого документа.",
+    "files": ["www/js/data/covers.js", "www/js/app/ensure-cover.js", "www/js/app/cover-from-view.js", "www/js/formats/pdf/cover.js", "www/js/formats/pdf/cover-from-canvas.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["bus", "storage"]
+  },
+  "library-actions": {
+    "kind": "flow",
+    "about": "Убрать документ из библиотеки (запись, обложка, пометки, OCR); файл на диске не трогается.",
+    "files": ["www/js/app/remove-entry.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["annotations", "bus", "covers", "library-store", "ocr", "strings", "toast"]
+  },
+  "document-open": {
+    "kind": "flow",
+    "about": "Сценарии открытия: диалог, перетаскивание, папка, запись библиотеки; текст ошибок открытия.",
+    "files": ["www/js/app/open-dialog.js", "www/js/app/open-dropped.js", "www/js/app/open-folder.js", "www/js/app/open-path.js", "www/js/app/open-paths.js", "www/js/app/open-stored.js", "www/js/app/error-text.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["bus", "covers", "document-import", "file-meta", "library-store", "native-bridge", "strings", "toast", "viewer-screen"]
+  },
+  "document-import": {
+    "kind": "flow",
+    "about": "Добавление документов в библиотеку без открытия: один файл, пачка, итоговое сообщение.",
+    "files": ["www/js/app/import-path.js", "www/js/app/import-many.js", "www/js/app/import-summary.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["bus", "covers", "file-meta", "format-router", "library-store", "native-bridge", "password-dialog", "pdf-doc", "strings", "toast"]
+  },
+  "library-screen": {
+    "kind": "ui",
+    "about": "Экран библиотеки: секции, карточки, пустое состояние, кнопки «Открыть» и «Папка», Ctrl+O.",
+    "files": ["www/js/ui/home-screen.js", "www/js/ui/home-events.js", "www/js/ui/home-toolbar.js", "www/js/ui/doc-card.js", "www/css/home.css", "www/css/library.css"],
+    "ids": ["home", "home-body", "sec-reading", "reading-list", "cnt-reading", "sec-rest", "doc-list", "cnt-rest", "doc-hidden", "hidden-text", "hidden-clean", "doc-empty", "empty-open", "empty-folder", "open-btn", "folder-btn"],
+    "icons": ["folder", "plus", "file", "trash"],
+    "uses": ["bus", "covers", "document-open", "file-meta", "library-actions", "library-store", "strings", "theme", "ui-kit"]
+  },
+  "viewer-screen": {
+    "kind": "ui",
+    "about": "Экран просмотра: открытие и закрытие документа, сессия, связка всех модулей просмотра.",
+    "files": ["www/js/ui/viewer-screen.js", "www/js/ui/viewer-close.js", "www/js/ui/viewer-session.js", "www/css/viewer.css"],
+    "ids": ["viewer", "viewer-main", "viewer-scroll", "viewer-pages", "viewer-title", "viewer-back"],
+    "icons": ["back"],
+    "uses": ["active-doc", "annot-gestures", "annotations", "bus", "covers", "file-meta", "library-store", "ocr", "page-ribbon", "pager", "pdf-doc", "text-layer", "text-selection", "thumbnails", "tools-panel", "view-mode", "viewer-keys", "zoom"]
+  },
+  "pager": {
+    "kind": "ui",
+    "about": "Номер страницы, «из N», кнопки «назад / вперёд» и полоса прогресса чтения.",
+    "files": ["www/js/ui/viewer-pager.js"],
+    "ids": ["page-input", "page-total", "page-prev", "page-next", "read-progress", "read-fill"],
+    "icons": ["prev", "next"],
+    "uses": []
+  },
+  "zoom": {
+    "kind": "ui",
+    "about": "Масштаб: состояние, кнопки в шапке, подгонка, пересчёт при изменении окна; математика шагов.",
+    "files": ["www/js/ui/viewer-zoom.js", "www/js/formats/pdf/zoom.js"],
+    "ids": ["zoom-label", "zoom-in", "zoom-out", "zoom-fit"],
+    "icons": ["zoom-in", "zoom-out"],
+    "uses": ["bus"]
+  },
+  "view-mode": {
+    "kind": "ui",
+    "about": "Режим просмотра (лента / по одной странице) и листание в нём.",
+    "files": ["www/js/ui/viewer-mode.js", "www/js/ui/viewer-paged-nav.js"],
+    "ids": ["mode-ribbon", "mode-paged"],
+    "icons": ["scroll", "pages"],
+    "uses": ["storage"]
+  },
+  "viewer-keys": {
+    "kind": "ui",
+    "about": "Клавиатура просмотра: Ctrl +/−/0, колесо с Ctrl, Esc, Ctrl+Z / Y / C.",
+    "files": ["www/js/ui/viewer-keys.js", "www/js/ui/edit-keys.js", "www/js/ui/edit-dismiss.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["ocr", "text-selection", "thumbnails", "tools-panel"]
+  },
+  "pdf-doc": {
+    "kind": "format",
+    "about": "Открытие и закрытие PDF через pdf.js (загрузчик, пароль, освобождение памяти).",
+    "files": ["www/js/formats/pdf/pdfjs.js", "www/js/formats/pdf/open-doc.js", "www/js/formats/pdf/close-doc.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "format-router": {
+    "kind": "format",
+    "about": "Выбор движка по имени файла: FB2 или PDF.",
+    "files": ["www/js/formats/open-any.js"],
+    "ids": [],
+    "icons": [],
+    "uses": ["fb2", "file-meta", "pdf-doc"]
+  },
+  "page-ribbon": {
+    "kind": "format",
+    "about": "Лента страниц: раскладка, ленивая отрисовка, очередь рендера, переход к странице.",
+    "files": ["www/js/formats/pdf/page-list.js", "www/js/formats/pdf/page-layout.js", "www/js/formats/pdf/page-painter.js", "www/js/formats/pdf/page-at.js", "www/js/formats/pdf/render-page.js", "www/js/formats/pdf/render-queue.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "thumbnails": {
+    "kind": "ui",
+    "about": "Панель миниатюр: открытие, закрепление, ленивые превью.",
+    "files": ["www/js/ui/thumbs-panel.js", "www/js/formats/pdf/thumb-list.js", "www/css/thumbs.css"],
+    "ids": ["thumbs-btn", "pin-btn", "thumbs-hot", "thumbs", "thumbs-head", "thumbs-list"],
+    "icons": ["thumbnails", "pin"],
+    "uses": ["page-ribbon", "storage"]
+  },
+  "fb2": {
+    "kind": "format",
+    "about": "Движок FB2 и FB2.ZIP: разбор, раскладка на страницы, отрисовка, документ с интерфейсом как у pdf.js.",
+    "files": ["www/js/formats/fb2/*"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "text-layer": {
+    "kind": "format",
+    "about": "Текст страницы для выделения: родной слой PDF, затем распознанный (OCR) со слов в таблицу символов.",
+    "files": ["www/js/formats/pdf/text-source.js", "www/js/formats/pdf/page-chars.js", "www/js/core/ocr-geom.js"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "tools-panel": {
+    "kind": "ui",
+    "about": "Плавающая палитра: инструменты, цвета, закрепление, перетаскивание, курсор инструмента.",
+    "files": ["www/js/ui/tools-panel.js", "www/js/ui/tool-select.js", "www/js/ui/color-palette.js", "www/js/ui/panel-pin.js", "www/js/ui/panel-drag.js", "www/js/ui/tool-cursor.js", "www/js/ui/cursor-svg.js", "www/css/tools-panel.css"],
+    "ids": ["edit-btn", "tools-panel", "tp-pin", "tp-hide", "tp-ocr", "tp-custom"],
+    "icons": ["edit", "pin", "close", "pen", "eraser", "highlighter", "text-select", "underline", "ocr"],
+    "uses": ["bus", "edit-state", "ocr", "storage", "strings", "toast"]
+  },
+  "annotations": {
+    "kind": "ui",
+    "about": "Пометки: данные, история отмены, проверка, ластик, SVG-слои, сохранение для документа.",
+    "files": ["www/js/ui/annot-data.js", "www/js/ui/annot-history.js", "www/js/ui/annot-valid.js", "www/js/ui/annot-erase.js", "www/js/ui/annot-svg.js", "www/js/ui/annot-layers.js", "www/js/app/annot-persist.js", "www/js/data/annot-db.js", "www/js/formats/pdf/annot-thin.js", "www/css/annot.css"],
+    "ids": [],
+    "icons": [],
+    "uses": ["bus", "storage", "strings", "toast"]
+  },
+  "annot-gestures": {
+    "kind": "ui",
+    "about": "Жесты рисования (перо, маркер, ластик) и кнопки отмены / возврата.",
+    "files": ["www/js/ui/viewer-draw.js", "www/js/ui/viewer-undo.js"],
+    "ids": ["undo-btn", "redo-btn"],
+    "icons": ["undo", "redo"],
+    "uses": ["active-doc", "annotations", "bus", "edit-state", "text-selection"]
+  },
+  "text-selection": {
+    "kind": "ui",
+    "about": "Выделение текста мышью: таблица символов, попадание, ручки, слой выделения, метки по тексту.",
+    "files": ["www/js/ui/sel-chars.js", "www/js/ui/sel-hit.js", "www/js/ui/sel-view.js", "www/js/ui/page-hit.js", "www/js/ui/drag-range.js", "www/js/ui/text-copy.js", "www/js/ui/text-drag.js", "www/js/ui/text-marks.js", "www/js/ui/text-mouse.js", "www/js/ui/text-select.js", "www/js/ui/text-menu-actions.js", "www/css/text-select.css"],
+    "ids": [],
+    "icons": [],
+    "uses": ["active-doc", "annotations", "bus", "clipboard", "edit-state", "strings", "text-menu", "toast"]
+  },
+  "text-menu": {
+    "kind": "ui",
+    "about": "Всплывающее меню над выделением (копировать, выделить, подчеркнуть): положение и события кнопок.",
+    "files": ["www/js/ui/text-menu.js"],
+    "ids": ["text-menu"],
+    "icons": ["copy", "highlighter", "underline"],
+    "uses": []
+  },
+  "ocr": {
+    "kind": "ui",
+    "about": "Распознавание текста сканов: офлайн-движок, листы страниц, языки, прогресс, хранение результата.",
+    "files": ["www/js/io/ocr-engine.js", "www/js/io/ocr-module.js", "www/js/data/ocr-store.js", "www/js/app/ocr.js", "www/js/formats/pdf/ocr-source.js", "www/js/ui/ocr-menu.js", "www/js/ui/ocr-langs.js", "www/js/ui/ocr-run.js", "www/css/ocr.css"],
+    "ids": ["ocr-sheet", "ocr-langs", "ocr-page", "ocr-all", "ocr-close", "ocr-error", "ocr-run", "ocr-fill", "ocr-status", "ocr-cancel"],
+    "icons": ["close"],
+    "uses": ["active-doc", "storage", "strings", "toast"]
+  },
+  "contract": {
+    "kind": "tooling",
+    "about": "Контракт и реестры: запуск проверок, версия, bump.",
+    "files": ["scripts/check.mjs", "scripts/bump-version.mjs", "scripts/checks/*"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "vendor": {
+    "kind": "tooling",
+    "about": "Подготовка сторонних файлов: pdf.js и OCR-движок в www/vendor.",
+    "files": ["scripts/copy-vendor.mjs", "scripts/fetch-ocr.mjs", "scripts/lib/*"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  },
+  "test-env": {
+    "kind": "tooling",
+    "about": "Сценарные тесты на jsdom и их окружение (копия index.html с API браузера).",
+    "files": ["www/js/scenarios/*"],
+    "ids": [],
+    "icons": [],
+    "uses": []
+  }
+}

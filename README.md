@@ -3,6 +3,11 @@
 Просмотрщик PDF и FB2 для настольных ОС на Tauri 2.
 Отдельный проект; визуал (темы, иконки, цвета) взят из мобильного Folio.
 
+## Разработка: порядок
+1. **`CONVENTIONS.md`** — правила (компоненты, атомарность, проверки, версия).
+2. **`registry/`** — реестры (компоненты, события, хранилище, команды, клавиши, токены); карта — `registry/README.md`.
+3. **Код** — только после первых двух шагов.
+
 ## Стек
 - Tauri 2 (Rust), плагин: `dialog`; команды `read_doc`, `list_docs`, `files_exist`. Окно стартует развернутым (maximized).
 - Фронтенд: чистый ES-JS без сборщика (`www/`), `pdfjs-dist` 6.4.299 копируется в `www/vendor/pdfjs` при `pnpm install`.
@@ -38,18 +43,22 @@ pnpm build          # установщик в src-tauri/target/release/bundle
 ```
 www/                  фронтенд (frontendDist)
   index.html, css/    разметка и стили (theme.css — токены цветов)
-  js/core/            bus, storage, theme, format, strings
-  js/data/            library (записи), covers (обложки)
-  js/io/              bridge (единственное место с __TAURI__), read-pdf, pick-pdfs, drop-files
+  js/core/            bus, storage, prefs, theme, format, strings, ocr-geom
+  js/data/            library (записи), covers, annot-db, ocr-store, idb
+  js/io/              bridge (единственное место с __TAURI__), read-doc, pick-docs, pick-folder, expand-paths, files-exist, drop-files, ocr-engine, ocr-module
+  js/formats/         open-any (выбор движка по имени файла)
   js/formats/fb2/     разбор FB2, раскладка, таблица символов, отрисовка, документ
-  js/formats/pdf/     pdfjs, open-doc, close-doc, page-list/layout/painter, render-queue, render-page, thumb-list, zoom, page-at, cover
+  js/formats/pdf/     pdfjs, open-doc, close-doc, page-list/layout/painter, render-queue, render-page, thumb-list, zoom, page-at, text-source, page-chars, cover, ocr-source
   js/ui/              экраны и панели; annot-*, viewer-draw, tools-panel, text-* — редактирование
-  js/app/             сценарии: открыть, импортировать, удалить
-src-tauri/            Rust: lib.rs, commands/*.rs, doc_guard.rs, doc_scan.rs (+ тесты)
-scripts/              проверки контракта, bump версии, copy-vendor
-test-fixtures/        PDF для тестов (обычный и с паролем «secret»)
-www/js/scenarios/     сценарные тесты на jsdom (библиотека, просмотр, редактирование, OCR-панель)
+  js/app/             сценарии: открыть, импортировать, удалить, OCR, сохранение пометок
+  js/scenarios/       сценарные тесты на jsdom (библиотека, просмотр, редактирование, OCR-панель, FB2)
+src-tauri/            Rust: lib.rs, commands/*.rs (один файл = одна команда), doc_guard.rs, doc_scan.rs (+ тесты)
+scripts/              проверки контракта (checks/), bump версии, copy-vendor, fetch-ocr
+registry/             реестры: компоненты, виды, события, хранилище, команды, клавиши, токены, список долга
+test-fixtures/        PDF и FB2 для тестов (обычный PDF и с паролем «secret», FB2, FB2.ZIP)
+CONVENTIONS.md        конвенция; AGENTS.md — порядок работы в двух строках
 ```
+Папки показывают технический слой, а владение файлами задаёт `registry/components.json`.
 
 ## Известные ограничения MVP
 - Нет поиска по тексту. У FB2 нет настройки шрифта и полей, обложка в библиотеке это титульная страница (картинка обложки из книги не используется), сложные таблицы показываются текстом, а картинки внутри строки выводятся отдельным блоком. Выделять можно только страницы с текстовым слоем (у сканов сначала нужен OCR; без интернета при установке движок не скачается, остальное работает).
